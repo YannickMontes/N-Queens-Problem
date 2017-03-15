@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package n.queens.problem;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -22,8 +24,14 @@ public class Chessboard {
     }
     
     private void generateColumns() {
+        Set<String> taken = new HashSet<String>();
         for(int i=0; i<this.size; i++) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, this.size);
+            int randomNum;
+            do {
+                randomNum = ThreadLocalRandom.current().nextInt(0, this.size);
+            } while (taken.contains(String.valueOf(randomNum)));
+            
+            taken.add(String.valueOf(randomNum));
             this.columns[i] = String.valueOf(randomNum);
         }
     }
@@ -52,6 +60,7 @@ public class Chessboard {
         StringBuilder stb = new StringBuilder();
         for(int i=0; i<this.size; i++) {
             stb.append(this.columns[i]);
+            stb.append(" ");
         } 
        
         return stb.toString();

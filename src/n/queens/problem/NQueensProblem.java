@@ -17,7 +17,8 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        // TODO code application logic here
+        Chessboard c = new Chessboard(8);
+        
+        System.out.println(c);
     }
-    
 }

@@ -22,5 +22,7 @@ public abstract class Metaheuristics
     {
         Chessboard solution_initial;
         int temperature_initial;
+        
+        
     }
 }

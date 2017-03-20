@@ -17,7 +17,7 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        Chessboard c = new Chessboard(1000);
+        Chessboard c = new Chessboard(5);
         
         System.out.println(c);
         System.out.println(c.fitnessConflict());

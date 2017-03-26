@@ -6,6 +6,7 @@
 package n.queens.problem;
 
 import metaheuristics.SimulatingAnnealing;
+import metaheuristics.TabuSearch;
 
 /**
  *
@@ -19,7 +20,13 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        Chessboard c = SimulatingAnnealing.execute(25);
+        System.out.println("Simulated annealing:");
+        Chessboard c = SimulatingAnnealing.execute(50);
         System.out.println(c.fitnessConflict());
+        
+        System.out.println("Tabu search:");
+        c = TabuSearch.execute(25, 5);
+        System.out.println(c.fitnessConflict());
+        
     }
 }

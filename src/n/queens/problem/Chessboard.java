@@ -31,8 +31,15 @@ public class Chessboard {
         this.setSolution(solution);
     }
     
+    public Chessboard(String[] cols)
+    {
+        this.size = cols.length;
+        this.columns = new String[this.size];
+        System.arraycopy(cols, 0, this.columns, 0, this.size);
+    }
+    
     private void generateColumns() {
-        Set<String> taken = new HashSet<String>();
+        Set<String> taken = new HashSet();
         for(int i=0; i<this.size; i++) {
             int randomNum;
             do {
@@ -88,16 +95,16 @@ public class Chessboard {
     public ArrayList<Chessboard> getNeighbours()
     {
         ArrayList<Chessboard> neighbours = new ArrayList();
-        String currentSolution = this.getSolution();
+        String[] currentSolution = this.columns;
         for(int i=0; i<this.size-1; i++)
         {
-            String neighbour = currentSolution;
+            String[] neighbour = currentSolution;
             for(int j=i+1; j<this.size; j++)
             {
-                char tmp = neighbour.charAt(i);
-                neighbour = neighbour.replace(neighbour.charAt(i), neighbour.charAt(j));
-                neighbour = neighbour.replace(neighbour.charAt(j), tmp);
-                neighbours.add(new Chessboard(size, neighbour));
+                String tmp = neighbour[i];
+                neighbour[i] = neighbour[j];
+                neighbour[j] = tmp;
+                neighbours.add(new Chessboard(neighbour));
             }
         }
         return neighbours;

@@ -25,4 +25,9 @@ public abstract class Metaheuristics
         
         
     }
+    
+    public static float ComputeInitialTemperatureForRecuit(int chessboardSize, float wantedProbability)
+    {
+        return 0;
+    }
 }

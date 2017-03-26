@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package n.queens.problem;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,11 +17,18 @@ public class Chessboard {
     private String[] columns;
     private int size;
     
-    public Chessboard(int size) {
+    public Chessboard(int size) 
+    {
         this.size = size;
         this.columns = new String[this.size];
         
         this.generateColumns();
+    }
+    
+    public Chessboard(int size, String solution)
+    {
+        this(size);
+        this.setSolution(solution);
     }
     
     private void generateColumns() {
@@ -53,6 +61,46 @@ public class Chessboard {
             }
         } 
         return fitness;
+    }
+    
+    public void setSolution(String solution)
+    {
+        if(solution.length() == size)
+        {
+            for(int i=0; i<solution.length(); i++)
+            {
+                String tmp = "" + solution.charAt(i);
+                this.columns[i] = tmp;
+            }
+        }
+    }
+    
+    public String getSolution()
+    {
+        String solution = "";
+        for(int i=0; i<this.size; i++)
+        {
+            solution += this.columns[i];
+        }
+        return solution;
+    }
+    
+    public ArrayList<Chessboard> getNeighbours()
+    {
+        ArrayList<Chessboard> neighbours = new ArrayList();
+        String currentSolution = this.getSolution();
+        for(int i=0; i<this.size-1; i++)
+        {
+            String neighbour = currentSolution;
+            for(int j=i+1; j<this.size; j++)
+            {
+                char tmp = neighbour.charAt(i);
+                neighbour = neighbour.replace(neighbour.charAt(i), neighbour.charAt(j));
+                neighbour = neighbour.replace(neighbour.charAt(j), tmp);
+                neighbours.add(new Chessboard(size, neighbour));
+            }
+        }
+        return neighbours;
     }
     
     @Override

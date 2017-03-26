@@ -5,6 +5,8 @@
  */
 package n.queens.problem;
 
+import metaheuristics.SimulatingAnnealing;
+
 /**
  *
  * @author yannick
@@ -17,9 +19,7 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        Chessboard c = new Chessboard(1000);
-        
-        System.out.println(c);
+        Chessboard c = SimulatingAnnealing.execute(25);
         System.out.println(c.fitnessConflict());
     }
 }

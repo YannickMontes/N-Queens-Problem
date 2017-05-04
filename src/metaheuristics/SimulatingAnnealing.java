@@ -14,8 +14,19 @@ import n.queens.problem.Chessboard;
  */
 public abstract class SimulatingAnnealing
 {
-    public static Chessboard execute(int chessboardSize)
+    private static final int MAX_ITERATIONS = 10000;
+    private static final float TEMPERATURE_STROPPING_THRESHOLD = 0.001f;
+    private static final float TEMPRATURE_VARIATION_MULTIPLIER = 0.99f;
+    
+    public static Chessboard execute(int chessboardSize, Integer max_iter, Float threshold_temp, Float variation_temp)
     {
+        //We choose a max numbers of iterations
+        int maxIterations = max_iter != null ? max_iter : SimulatingAnnealing.MAX_ITERATIONS;
+        //How the temperature will decrease through time
+        float variationTemperatureMultiplier = variation_temp != null ? variation_temp : SimulatingAnnealing.TEMPRATURE_VARIATION_MULTIPLIER;
+        //When the temperature go under this threshold, we stop the algorithm
+        float thresholdTemp = threshold_temp != null ? threshold_temp : SimulatingAnnealing.TEMPERATURE_STROPPING_THRESHOLD;
+        
         //Random initial solution & initial temperature computing
         Chessboard solution = new Chessboard(chessboardSize);
         float temperature = SimulatingAnnealing.computeInitialTemperatureForRecuit(chessboardSize, 0.8f, "conflict");
@@ -24,15 +35,11 @@ public abstract class SimulatingAnnealing
         Chessboard bestSolution = null;
         int bestFitness = Integer.MAX_VALUE;
         
-        //We choose a max numbers of iterations
-        int maxIterations = 10000;
+        
         int currentIteration = 0;
-        
-        //How the temperature will decrease through time
-        float variationTemperatureMultiplier = 0.99f;
-        
+                
         //Then we loop through till the temperature is low enough or to a max number of iterations
-        while(temperature > 0.005 && currentIteration < maxIterations && bestFitness > 0)
+        while(temperature > thresholdTemp && currentIteration < maxIterations && bestFitness > 0)
         {
             //Retrieve the neighbours of currentsolution
             long deb = System.currentTimeMillis();

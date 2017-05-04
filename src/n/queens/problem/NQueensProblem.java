@@ -22,7 +22,7 @@ public class NQueensProblem
     {
         System.out.println("Simulated annealing:");
         long time = System.currentTimeMillis();
-        Chessboard c = SimulatingAnnealing.execute(1000);
+        Chessboard c = SimulatingAnnealing.execute(100, null, null, null);
         System.out.println(c.fitnessConflict());
         System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
         

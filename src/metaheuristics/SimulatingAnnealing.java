@@ -18,6 +18,14 @@ public abstract class SimulatingAnnealing
     private static final float TEMPERATURE_STROPPING_THRESHOLD = 0.001f;
     private static final float TEMPRATURE_VARIATION_MULTIPLIER = 0.99f;
     
+    /**
+     * Execute a simulated annealing algorithm over a chessboard with given parameters
+     * @param chessboardSize Numbers of quenn of the board 
+     * @param max_iter Number max of iterations for the algorithme (stopping condition)
+     * @param threshold_temp Lowest value for temperature (stopping condition)
+     * @param variation_temp How the temperature will decrease through time
+     * @return The best solution found
+     */
     public static Chessboard execute(int chessboardSize, Integer max_iter, Float threshold_temp, Float variation_temp)
     {
         //We choose a max numbers of iterations

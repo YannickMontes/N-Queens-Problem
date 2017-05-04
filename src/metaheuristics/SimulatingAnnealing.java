@@ -36,11 +36,9 @@ public abstract class SimulatingAnnealing
         {
             //Retrieve the neighbours of currentsolution
             long deb = System.currentTimeMillis();
-            ArrayList<Chessboard> neighs = solution.getNeighbours();
-            System.out.println("Neighs computing took "+ (System.currentTimeMillis() - deb)+" ms");
             
             //Choose a neighbour
-            Chessboard choosedNeigh = SimulatingAnnealing.chooseRandomNeighbours(neighs);
+            Chessboard choosedNeigh = solution.generateRandomNeigh();
             
             //Compute the delta fitness between the two solutions
             int solutionFitness = solution.fitnessConflict();
@@ -74,9 +72,8 @@ public abstract class SimulatingAnnealing
             //Finally we update our temperature
             temperature *= variationTemperatureMultiplier;
             currentIteration += 1;
-            System.out.println("Iteration took "+ (System.currentTimeMillis() - deb)+" ms");
         }
-                    System.out.println(currentIteration + " - "+temperature);
+        System.out.println(currentIteration + " - "+temperature);
 
         return bestSolution;
     }

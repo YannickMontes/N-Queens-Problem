@@ -25,7 +25,7 @@ public abstract class TabuSearch
         int bestFitness = solution.fitnessConflict();
         
         //Current iteraton & max iteration number
-        int maxIterations = 10000;
+        int maxIterations = 5000;
         int currentIteration = 0;
         
         //The list of neighbours without tabu neighbours

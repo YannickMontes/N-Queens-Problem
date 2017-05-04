@@ -95,10 +95,10 @@ public class Chessboard {
     public ArrayList<Chessboard> getNeighbours()
     {
         ArrayList<Chessboard> neighbours = new ArrayList();
-        String[] currentSolution = this.columns;
         for(int i=0; i<this.size-1; i++)
         {
-            String[] neighbour = currentSolution;
+            String[] neighbour = new String[this.size];
+            System.arraycopy(this.columns, 0, neighbour, 0, this.size);
             for(int j=i+1; j<this.size; j++)
             {
                 String tmp = neighbour[i];
@@ -108,6 +108,25 @@ public class Chessboard {
             }
         }
         return neighbours;
+    }
+    
+    public Chessboard generateRandomNeigh()
+    {        
+        String[] neighString = new String[this.size];
+        System.arraycopy(this.columns, 0, neighString, 0, this.size);
+        
+        int choosedColumn1 = (int)(Math.random() * (this.size));
+        int choosedColumn2 = choosedColumn1;
+        while(choosedColumn1 == choosedColumn2)
+        {
+            choosedColumn2 = (int)(Math.random() * (this.size));
+        }
+        
+        String tmp = neighString[choosedColumn1];
+        neighString[choosedColumn1] = neighString[choosedColumn2];
+        neighString[choosedColumn2] = tmp;
+        
+        return new Chessboard(neighString);
     }
     
     @Override

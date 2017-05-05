@@ -28,7 +28,7 @@ public class NQueensProblem
         
         System.out.println("Tabu search:");
         time = System.currentTimeMillis();
-        c = TabuSearch.execute(50, 7);
+        c = TabuSearch.execute(100, null, null);
         System.out.println(c.fitnessConflict());
         System.out.println("Tabu take "+(System.currentTimeMillis() - time)+" ms");
         

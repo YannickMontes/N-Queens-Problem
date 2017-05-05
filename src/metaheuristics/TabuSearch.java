@@ -14,8 +14,22 @@ import n.queens.problem.Chessboard;
  */
 public abstract class TabuSearch
 {
-    public static Chessboard execute(int chessboardSize, int tabuTabSize)
+    private static final int TABU_LIST_SIZE = 7;
+    private static final int MAX_ITERATIONS = 5000;
+    
+    /**
+     * Method to execute tabu search algorithm on given chessboard size with given parameters
+     * @param chessboardSize The size of the chessboard (required)
+     * @param tabuSizeTab The size for the tabu list (7 if null given)
+     * @param maxIt The number of iterations maximum (5000 if null given)
+     * @return The best chessboard
+     */
+    public static Chessboard execute(int chessboardSize, Integer tabuSizeTab, Integer maxIt)
     {
+        //Init parameters variables
+        int maxIterations = maxIt != null ? maxIt : TabuSearch.MAX_ITERATIONS;
+        int tabuTabSize = tabuSizeTab != null ? tabuSizeTab : TabuSearch.TABU_LIST_SIZE;
+        
         //First let's take a random solution
         Chessboard solution = new Chessboard(chessboardSize);
         ArrayList<String> tabu = new ArrayList();
@@ -25,7 +39,6 @@ public abstract class TabuSearch
         int bestFitness = solution.fitnessConflict();
         
         //Current iteraton & max iteration number
-        int maxIterations = 5000;
         int currentIteration = 0;
         
         //The list of neighbours without tabu neighbours

@@ -7,6 +7,7 @@ package n.queens.problem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,14 +17,33 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Chessboard {
     private String[] columns;
+
+    public String[] getColumns() {
+        return columns;
+    }
+    
     private int size;
+    private int fitness;
+
+    public int getFitness() {
+        return fitness;
+    }
+    
+    private String toStringos;
     
     public Chessboard(int size) 
     {
         this.size = size;
         this.columns = new String[this.size];
         
+        //TO DELETE
+        this.fitness = 0;
+        this.toStringos = "";
+        
         this.generateColumns();
+        
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
+        this.toStringos = this.toString();
     }
     
     public Chessboard(int size, String solution)
@@ -37,6 +57,10 @@ public class Chessboard {
         this.size = cols.length;
         this.columns = new String[this.size];
         System.arraycopy(cols, 0, this.columns, 0, this.size);
+        
+        //TO DELETE     
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
+        this.toStringos = this.toString();
     }
     
     private void generateColumns() {
@@ -223,5 +247,19 @@ public class Chessboard {
         return Math.abs((col1 - col2)) == Math.abs(line1-line2);
     }
             
-            
+    public String[] getColumnsBefore(int index) {
+        return Arrays.copyOfRange(columns, 0, index);
+    }  
+    
+    public String[] getColumnsAfter(int index) {
+        return Arrays.copyOfRange(columns, index, 0);
+    }
+    
+    public void mutate() {
+        Random rand = new Random(); 
+        int index = rand.nextInt(this.size - 1);
+        int value = rand.nextInt(this.size - 1);
+        
+        this.columns[index] = "" + value;
+    }
 }

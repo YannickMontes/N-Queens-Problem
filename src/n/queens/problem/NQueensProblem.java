@@ -5,6 +5,7 @@
  */
 package n.queens.problem;
 
+import metaheuristics.Genetic;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
 
@@ -20,9 +21,15 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        System.out.println("Simulated annealing:");
+        System.out.println("Genetic:");
         long time = System.currentTimeMillis();
-        Chessboard c = SimulatingAnnealing.execute(100, null, null, null, null);
+        Chessboard c = Genetic.execute(8, null, null, null);
+        System.out.println(c.computeFitness(null));
+        System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
+        
+        System.out.println("Simulated annealing:");
+        time = System.currentTimeMillis();
+        c = SimulatingAnnealing.execute(100, null, null, null, null);
         System.out.println(c.computeFitness(null));
         System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
         

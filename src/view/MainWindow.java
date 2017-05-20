@@ -6,8 +6,10 @@
 package view;
 import n.queens.problem.FitnessEnum;
 import javax.swing.DefaultComboBoxModel;
+import metaheuristics.Genetic;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
+import n.queens.problem.Chessboard;
 
 /**
  *
@@ -45,19 +47,47 @@ public class MainWindow extends javax.swing.JFrame
         temperatureThresholdField = new javax.swing.JTextField();
         temperatureVariationMulLabel = new javax.swing.JLabel();
         temperatureVariationMulField = new javax.swing.JTextField();
-        fitnessAnnealingChooseLabel = new javax.swing.JLabel();
-        fitnessAnnealingComboBox = new javax.swing.JComboBox<>();
+        fitnessChoosenAnnealingLabel = new javax.swing.JLabel();
+        fitnessChoosenAnnealing = new javax.swing.JComboBox<>();
         runAnnealing = new javax.swing.JButton();
+        executionTimeAnnealingLabel = new javax.swing.JLabel();
+        executionTimeAnnealing = new javax.swing.JLabel();
+        bestFitnessAnnealingLabel = new javax.swing.JLabel();
+        bestFitnessAnnealing = new javax.swing.JLabel();
+        withSolutionAnnealingLabel = new javax.swing.JLabel();
+        solutionAnnealing = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         tabuSearchLabel = new javax.swing.JLabel();
         maxIterationsTabuLabel = new javax.swing.JLabel();
         maxIterationsTabuField = new javax.swing.JTextField();
         tabuListSizeField = new javax.swing.JTextField();
         tabuListSizeLabel = new javax.swing.JLabel();
-        fitnessChooseTabuLabel = new javax.swing.JLabel();
-        fitnessComboBox1 = new javax.swing.JComboBox<>();
+        fitnessChoosenTabuLabel = new javax.swing.JLabel();
+        fitnessChoosenTabu = new javax.swing.JComboBox<>();
         runTabu = new javax.swing.JButton();
+        withSolutionTabuLabel = new javax.swing.JLabel();
+        bestFitnessTabu = new javax.swing.JLabel();
+        solutionTabu = new javax.swing.JLabel();
+        executionTimeTabu = new javax.swing.JLabel();
+        bestFitnessTabuLabel = new javax.swing.JLabel();
+        executionTimeTabuLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        populationSizeGenetic = new javax.swing.JTextField();
+        populationSizeGeneticLabel = new javax.swing.JLabel();
+        maxIterationsGeneticLabel = new javax.swing.JLabel();
+        maxIterationsGeneticField = new javax.swing.JTextField();
+        tabuSearchLabel1 = new javax.swing.JLabel();
+        runGenetic = new javax.swing.JButton();
+        solutionGenetic = new javax.swing.JLabel();
+        withSolutionTabuLabel1 = new javax.swing.JLabel();
+        bestFitnessGenetic = new javax.swing.JLabel();
+        bestFitnessGeneticLabel = new javax.swing.JLabel();
+        executionTimeGeneticLabel = new javax.swing.JLabel();
+        executionTimeGenetic = new javax.swing.JLabel();
+        mutationProbaGeneticLabel = new javax.swing.JLabel();
+        mutationProbaGeneticField = new javax.swing.JTextField();
+        fitnessChoosenGenetic = new javax.swing.JComboBox<>();
+        fitnessChoosenGeneticLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("N Queens problem");
@@ -113,11 +143,11 @@ public class MainWindow extends javax.swing.JFrame
         temperatureVariationMulField.setMinimumSize(new java.awt.Dimension(4, 30));
         temperatureVariationMulField.setPreferredSize(new java.awt.Dimension(78, 30));
 
-        fitnessAnnealingChooseLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        fitnessAnnealingChooseLabel.setText("Fitness type");
+        fitnessChoosenAnnealingLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessChoosenAnnealingLabel.setText("Fitness type");
 
-        fitnessAnnealingComboBox.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        fitnessAnnealingComboBox.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
+        fitnessChoosenAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessChoosenAnnealing.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
 
         runAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         runAnnealing.setText("RUN MATE");
@@ -129,31 +159,74 @@ public class MainWindow extends javax.swing.JFrame
             }
         });
 
+        executionTimeAnnealingLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        executionTimeAnnealingLabel.setText("Execution time ");
+        executionTimeAnnealingLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        executionTimeAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        executionTimeAnnealing.setText("0 ms");
+        executionTimeAnnealing.setMaximumSize(new java.awt.Dimension(34, 17));
+        executionTimeAnnealing.setMinimumSize(new java.awt.Dimension(34, 17));
+        executionTimeAnnealing.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        bestFitnessAnnealingLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bestFitnessAnnealingLabel.setText("Best fitness found");
+        bestFitnessAnnealingLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        bestFitnessAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bestFitnessAnnealing.setText("0");
+        bestFitnessAnnealing.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        withSolutionAnnealingLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        withSolutionAnnealingLabel.setText("with solution");
+        withSolutionAnnealingLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        solutionAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        solutionAnnealing.setPreferredSize(new java.awt.Dimension(30, 30));
+
         javax.swing.GroupLayout annealingPanelLayout = new javax.swing.GroupLayout(annealingPanel);
         annealingPanel.setLayout(annealingPanelLayout);
         annealingPanelLayout.setHorizontalGroup(
             annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, annealingPanelLayout.createSequentialGroup()
+                .addContainerGap(266, Short.MAX_VALUE)
+                .addComponent(simuAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(231, 231, 231))
             .addGroup(annealingPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(temperatureThresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(temperatureVariationMulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fitnessAnnealingChooseLabel)
-                    .addComponent(maxIterationsAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(temperatureThresholdField)
-                    .addComponent(temperatureVariationMulField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(maxIterationsAnnealingField)
-                    .addComponent(fitnessAnnealingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(annealingPanelLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(runAnnealing)))
-                .addContainerGap(359, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, annealingPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(simuAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(231, 231, 231))
+                        .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(temperatureThresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fitnessChoosenAnnealingLabel)
+                            .addComponent(maxIterationsAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(temperatureVariationMulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(temperatureThresholdField)
+                                .addComponent(temperatureVariationMulField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                                .addComponent(maxIterationsAnnealingField)
+                                .addComponent(fitnessChoosenAnnealing, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(annealingPanelLayout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(runAnnealing)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(annealingPanelLayout.createSequentialGroup()
+                        .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, annealingPanelLayout.createSequentialGroup()
+                                .addComponent(bestFitnessAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bestFitnessAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, annealingPanelLayout.createSequentialGroup()
+                                .addComponent(executionTimeAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(executionTimeAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(withSolutionAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(solutionAnnealing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         annealingPanelLayout.setVerticalGroup(
             annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,17 +247,28 @@ public class MainWindow extends javax.swing.JFrame
                     .addComponent(temperatureVariationMulField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fitnessAnnealingChooseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fitnessAnnealingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fitnessChoosenAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fitnessChoosenAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runAnnealing)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addGap(92, 92, 92)
+                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(executionTimeAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(executionTimeAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bestFitnessAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bestFitnessAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(withSolutionAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(solutionAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         maxIterationsAnnealingField.setText(Integer.toString(SimulatingAnnealing.MAX_ITERATIONS));
         temperatureThresholdField.setText(Float.toString(SimulatingAnnealing.TEMPERATURE_STROPPING_THRESHOLD));
         temperatureVariationMulField.setText(Float.toString(SimulatingAnnealing.TEMPRATURE_VARIATION_MULTIPLIER));
-        fitnessAnnealingComboBox.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
+        fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 
         methodPane.addTab("Simulated Annealing", annealingPanel);
 
@@ -217,11 +301,11 @@ public class MainWindow extends javax.swing.JFrame
         tabuListSizeLabel.setMinimumSize(new java.awt.Dimension(225, 30));
         tabuListSizeLabel.setPreferredSize(new java.awt.Dimension(225, 30));
 
-        fitnessChooseTabuLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        fitnessChooseTabuLabel.setText("Fitness type");
+        fitnessChoosenTabuLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessChoosenTabuLabel.setText("Fitness type");
 
-        fitnessComboBox1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        fitnessComboBox1.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
+        fitnessChoosenTabu.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessChoosenTabu.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
 
         runTabu.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         runTabu.setText("RUN MATE");
@@ -232,6 +316,29 @@ public class MainWindow extends javax.swing.JFrame
                 runTabuActionPerformed(evt);
             }
         });
+
+        withSolutionTabuLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        withSolutionTabuLabel.setText("with solution");
+        withSolutionTabuLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        bestFitnessTabu.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bestFitnessTabu.setText("0");
+        bestFitnessTabu.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        solutionTabu.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        solutionTabu.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        executionTimeTabu.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        executionTimeTabu.setText("0 ms");
+        executionTimeTabu.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        bestFitnessTabuLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bestFitnessTabuLabel.setText("Best fitness found");
+        bestFitnessTabuLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        executionTimeTabuLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        executionTimeTabuLabel.setText("Execution time ");
+        executionTimeTabuLabel.setPreferredSize(new java.awt.Dimension(106, 30));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -244,19 +351,36 @@ public class MainWindow extends javax.swing.JFrame
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabuListSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fitnessChooseTabuLabel)
-                    .addComponent(maxIterationsTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(runTabu))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(tabuListSizeField)
-                        .addComponent(maxIterationsTabuField)
-                        .addComponent(fitnessComboBox1, 0, 135, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tabuListSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fitnessChoosenTabuLabel)
+                            .addComponent(maxIterationsTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(runTabu))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tabuListSizeField)
+                                .addComponent(maxIterationsTabuField)
+                                .addComponent(fitnessChoosenTabu, 0, 135, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(bestFitnessTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bestFitnessTabu, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(executionTimeTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(executionTimeTabu, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(withSolutionTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(solutionTabu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,29 +397,194 @@ public class MainWindow extends javax.swing.JFrame
                     .addComponent(tabuListSizeField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fitnessChooseTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fitnessComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fitnessChoosenTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fitnessChoosenTabu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runTabu)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addGap(87, 87, 87)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(executionTimeTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(executionTimeTabu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bestFitnessTabu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(withSolutionTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solutionTabu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bestFitnessTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         maxIterationsTabuField.setText(Integer.toString(TabuSearch.MAX_ITERATIONS));
         tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
-        fitnessAnnealingComboBox.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
+        fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 
         methodPane.addTab("Tabu Search", jPanel2);
+
+        populationSizeGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        populationSizeGenetic.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        populationSizeGenetic.setToolTipText("");
+
+        populationSizeGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        populationSizeGeneticLabel.setText("Population size");
+        populationSizeGeneticLabel.setMaximumSize(new java.awt.Dimension(225, 30));
+        populationSizeGeneticLabel.setMinimumSize(new java.awt.Dimension(225, 30));
+        populationSizeGeneticLabel.setPreferredSize(new java.awt.Dimension(225, 30));
+
+        maxIterationsGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        maxIterationsGeneticLabel.setText("Max number of iterations");
+        maxIterationsGeneticLabel.setMaximumSize(new java.awt.Dimension(170, 30));
+        maxIterationsGeneticLabel.setMinimumSize(new java.awt.Dimension(170, 30));
+
+        maxIterationsGeneticField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        maxIterationsGeneticField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        maxIterationsGeneticField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                maxIterationsGeneticFieldActionPerformed(evt);
+            }
+        });
+
+        tabuSearchLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        tabuSearchLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tabuSearchLabel1.setText("Genetic Algorithm");
+
+        runGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        runGenetic.setText("RUN MATE");
+        runGenetic.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                runGeneticActionPerformed(evt);
+            }
+        });
+
+        solutionGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        solutionGenetic.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        withSolutionTabuLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        withSolutionTabuLabel1.setText("with solution");
+        withSolutionTabuLabel1.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        bestFitnessGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bestFitnessGenetic.setText("0");
+        bestFitnessGenetic.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        bestFitnessGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        bestFitnessGeneticLabel.setText("Best fitness found");
+        bestFitnessGeneticLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        executionTimeGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        executionTimeGeneticLabel.setText("Execution time ");
+        executionTimeGeneticLabel.setPreferredSize(new java.awt.Dimension(106, 30));
+
+        executionTimeGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        executionTimeGenetic.setText("0 ms");
+        executionTimeGenetic.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        mutationProbaGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        mutationProbaGeneticLabel.setText("Mutation probability");
+        mutationProbaGeneticLabel.setMaximumSize(new java.awt.Dimension(225, 30));
+        mutationProbaGeneticLabel.setMinimumSize(new java.awt.Dimension(225, 30));
+        mutationProbaGeneticLabel.setPreferredSize(new java.awt.Dimension(225, 30));
+
+        mutationProbaGeneticField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        mutationProbaGeneticField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        mutationProbaGeneticField.setToolTipText("");
+
+        fitnessChoosenGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessChoosenGenetic.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
+
+        fitnessChoosenGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessChoosenGeneticLabel.setText("Fitness type");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 771, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(bestFitnessGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bestFitnessGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(executionTimeGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(executionTimeGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(withSolutionTabuLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(solutionGenetic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(populationSizeGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(maxIterationsGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(runGenetic)
+                                    .addComponent(tabuSearchLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(maxIterationsGeneticField, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(populationSizeGenetic))
+                                        .addGap(127, 127, 127))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mutationProbaGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fitnessChoosenGeneticLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(fitnessChoosenGenetic, 0, 147, Short.MAX_VALUE)
+                                    .addComponent(mutationProbaGeneticField))))
+                        .addGap(0, 236, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 514, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabuSearchLabel1)
+                .addGap(45, 45, 45)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(maxIterationsGeneticField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maxIterationsGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(populationSizeGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(populationSizeGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mutationProbaGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mutationProbaGeneticField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fitnessChoosenGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fitnessChoosenGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(runGenetic)
+                .addGap(42, 42, 42)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(executionTimeGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(executionTimeGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bestFitnessGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(withSolutionTabuLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solutionGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bestFitnessGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
+
+        tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
+        maxIterationsTabuField.setText(Integer.toString(TabuSearch.MAX_ITERATIONS));
+        tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
+        fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 
         methodPane.addTab("Genetic Algorithm", jPanel3);
 
@@ -338,8 +627,11 @@ public class MainWindow extends javax.swing.JFrame
 
     private void runAnnealingActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runAnnealingActionPerformed
     {//GEN-HEADEREND:event_runAnnealingActionPerformed
-        SimulatingAnnealing.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.maxIterationsAnnealingField.getText()),
-                Float.parseFloat(this.temperatureThresholdField.getText()), Float.parseFloat(this.temperatureVariationMulField.getText()), (FitnessEnum)this.fitnessAnnealingComboBox.getSelectedItem());
+        long time = System.currentTimeMillis();
+        Chessboard chessSol = SimulatingAnnealing.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.maxIterationsAnnealingField.getText()),
+                Float.parseFloat(this.temperatureThresholdField.getText()), Float.parseFloat(this.temperatureVariationMulField.getText()), (FitnessEnum)this.fitnessChoosenAnnealing.getSelectedItem());
+        time = System.currentTimeMillis() - time;
+        this.fillResults(time, chessSol);
     }//GEN-LAST:event_runAnnealingActionPerformed
 
     private void maxIterationsTabuFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_maxIterationsTabuFieldActionPerformed
@@ -349,10 +641,52 @@ public class MainWindow extends javax.swing.JFrame
 
     private void runTabuActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runTabuActionPerformed
     {//GEN-HEADEREND:event_runTabuActionPerformed
-        TabuSearch.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
-                Integer.parseInt(this.maxIterationsAnnealingField.getText()), (FitnessEnum)this.fitnessAnnealingComboBox.getSelectedItem());
+        long time = System.currentTimeMillis();
+        Chessboard chessSol = TabuSearch.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
+                Integer.parseInt(this.maxIterationsTabuField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
+        time = System.currentTimeMillis() - time;
+        this.fillResults(time, chessSol);
     }//GEN-LAST:event_runTabuActionPerformed
 
+    private void maxIterationsGeneticFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_maxIterationsGeneticFieldActionPerformed
+    {//GEN-HEADEREND:event_maxIterationsGeneticFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_maxIterationsGeneticFieldActionPerformed
+
+    private void runGeneticActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runGeneticActionPerformed
+    {//GEN-HEADEREND:event_runGeneticActionPerformed
+        long time = System.currentTimeMillis();
+        Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
+                Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
+        time = System.currentTimeMillis() - time;
+        this.fillResults(time, chessSol);
+    }//GEN-LAST:event_runGeneticActionPerformed
+    
+    
+    private void fillResults(long executionTime, Chessboard solution)
+    {
+        System.out.println(this.methodPane.getSelectedIndex());
+        switch (this.methodPane.getSelectedIndex())
+        {
+            case 0:
+                this.executionTimeAnnealing.setText(executionTime+" ms");
+                this.bestFitnessAnnealing.setText(Integer.toString(solution.computeFitness((FitnessEnum)this.fitnessChoosenAnnealing.getSelectedItem())));
+                this.solutionAnnealing.setText(solution.toString());
+                break;
+            case 1:
+                this.executionTimeTabu.setText(executionTime+" ms");
+                this.bestFitnessTabu.setText(Integer.toString(solution.computeFitness((FitnessEnum)this.fitnessChoosenTabu.getSelectedItem())));
+                this.solutionTabu.setText(solution.toString());
+                break;
+            case 2:
+                this.executionTimeGenetic.setText(executionTime+" ms");
+                this.bestFitnessGenetic.setText(Integer.toString(solution.computeFitness((FitnessEnum)this.fitnessChoosenGenetic.getSelectedItem())));
+                this.solutionGenetic.setText(solution.toString());
+                break;
+            default:
+                break;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -400,28 +734,56 @@ public class MainWindow extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel annealingPanel;
+    private javax.swing.JLabel bestFitnessAnnealing;
+    private javax.swing.JLabel bestFitnessAnnealingLabel;
+    private javax.swing.JLabel bestFitnessGenetic;
+    private javax.swing.JLabel bestFitnessGeneticLabel;
+    private javax.swing.JLabel bestFitnessTabu;
+    private javax.swing.JLabel bestFitnessTabuLabel;
     private javax.swing.JTextField chessSizeField;
     private javax.swing.JLabel chessSizeLabel;
-    private javax.swing.JLabel fitnessAnnealingChooseLabel;
-    private javax.swing.JComboBox<FitnessEnum> fitnessAnnealingComboBox;
-    private javax.swing.JLabel fitnessChooseTabuLabel;
-    private javax.swing.JComboBox<FitnessEnum> fitnessComboBox1;
+    private javax.swing.JLabel executionTimeAnnealing;
+    private javax.swing.JLabel executionTimeAnnealingLabel;
+    private javax.swing.JLabel executionTimeGenetic;
+    private javax.swing.JLabel executionTimeGeneticLabel;
+    private javax.swing.JLabel executionTimeTabu;
+    private javax.swing.JLabel executionTimeTabuLabel;
+    private javax.swing.JComboBox<FitnessEnum> fitnessChoosenAnnealing;
+    private javax.swing.JLabel fitnessChoosenAnnealingLabel;
+    private javax.swing.JComboBox<FitnessEnum> fitnessChoosenGenetic;
+    private javax.swing.JLabel fitnessChoosenGeneticLabel;
+    private javax.swing.JComboBox<FitnessEnum> fitnessChoosenTabu;
+    private javax.swing.JLabel fitnessChoosenTabuLabel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField maxIterationsAnnealingField;
     private javax.swing.JLabel maxIterationsAnnealingLabel;
+    private javax.swing.JTextField maxIterationsGeneticField;
+    private javax.swing.JLabel maxIterationsGeneticLabel;
     private javax.swing.JTextField maxIterationsTabuField;
     private javax.swing.JLabel maxIterationsTabuLabel;
     private javax.swing.JTabbedPane methodPane;
+    private javax.swing.JTextField mutationProbaGeneticField;
+    private javax.swing.JLabel mutationProbaGeneticLabel;
+    private javax.swing.JTextField populationSizeGenetic;
+    private javax.swing.JLabel populationSizeGeneticLabel;
     private javax.swing.JButton runAnnealing;
+    private javax.swing.JButton runGenetic;
     private javax.swing.JButton runTabu;
     private javax.swing.JLabel simuAnnealingLabel;
+    private javax.swing.JLabel solutionAnnealing;
+    private javax.swing.JLabel solutionGenetic;
+    private javax.swing.JLabel solutionTabu;
     private javax.swing.JTextField tabuListSizeField;
     private javax.swing.JLabel tabuListSizeLabel;
     private javax.swing.JLabel tabuSearchLabel;
+    private javax.swing.JLabel tabuSearchLabel1;
     private javax.swing.JTextField temperatureThresholdField;
     private javax.swing.JLabel temperatureThresholdLabel;
     private javax.swing.JTextField temperatureVariationMulField;
     private javax.swing.JLabel temperatureVariationMulLabel;
+    private javax.swing.JLabel withSolutionAnnealingLabel;
+    private javax.swing.JLabel withSolutionTabuLabel;
+    private javax.swing.JLabel withSolutionTabuLabel1;
     // End of variables declaration//GEN-END:variables
 }

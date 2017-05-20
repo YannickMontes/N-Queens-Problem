@@ -582,7 +582,7 @@ public class MainWindow extends javax.swing.JFrame
         );
 
         tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
-        maxIterationsTabuField.setText(Integer.toString(TabuSearch.MAX_ITERATIONS));
+        //maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));
         tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
         fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 

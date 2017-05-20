@@ -63,6 +63,10 @@ public class Chessboard {
                 fitnessResult = this.fitnessConflict();
                 break;
                 
+            case NO_CONFLICT:
+                fitnessResult = this.fitnessConflict();
+                break;
+                
             default:
                 fitnessResult = this.fitnessConflict();
                 break;
@@ -81,6 +85,33 @@ public class Chessboard {
                 int comparedQueen = Integer.parseInt(this.columns[j]);
                 
                 if(IsOnTheSameDiagonal(i, j, currentQueen, comparedQueen))
+                {
+                    fitness++;
+                }
+                if(IsOnSameColumns(i, j))
+                {
+                    fitness++;
+                }
+            }
+        } 
+        return fitness;
+    }
+    
+    private int fitnessNoConflitct()
+    {
+        int fitness = 0;
+        for(int i=0; i<this.size-1; i++)
+        {
+            for(int j=i+1; j<this.size; j++)
+            {
+                int currentQueen = Integer.parseInt(this.columns[i]);
+                int comparedQueen = Integer.parseInt(this.columns[j]);
+                
+                if(!IsOnTheSameDiagonal(i, j, currentQueen, comparedQueen))
+                {
+                    fitness++;
+                }
+                if(!IsOnSameColumns(i, j))
                 {
                     fitness++;
                 }
@@ -180,6 +211,11 @@ public class Chessboard {
     private boolean IsBetweenIncluded(int value, int inf, int sup)
     {
         return (value >= inf || value <= sup);
+    }
+    
+    private boolean IsOnSameColumns(int a, int b)
+    {
+        return a == b;
     }
     
     private boolean IsOnTheSameDiagonal(int col1, int col2, int line1, int line2)

@@ -11,5 +11,6 @@ package n.queens.problem;
  */
 public enum FitnessEnum
 {
-    CONFLICT
+    CONFLICT,
+    NO_CONFLICT
 }

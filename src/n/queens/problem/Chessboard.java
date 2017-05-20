@@ -171,7 +171,7 @@ public class Chessboard {
         StringBuilder stb = new StringBuilder();
         for(int i=0; i<this.size; i++) {
             stb.append(this.columns[i]);
-            stb.append(" ");
+            //stb.append(" ");
         } 
        
         return stb.toString();

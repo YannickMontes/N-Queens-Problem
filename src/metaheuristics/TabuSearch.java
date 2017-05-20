@@ -7,6 +7,7 @@ package metaheuristics;
 
 import java.util.ArrayList;
 import n.queens.problem.Chessboard;
+import n.queens.problem.FitnessEnum;
 
 /**
  *
@@ -16,19 +17,22 @@ public abstract class TabuSearch
 {
     private static final int TABU_LIST_SIZE = 7;
     private static final int MAX_ITERATIONS = 5000;
+    private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
     
     /**
      * Method to execute tabu search algorithm on given chessboard size with given parameters
      * @param chessboardSize The size of the chessboard (required)
      * @param tabuSizeTab The size for the tabu list (7 if null given)
      * @param maxIt The number of iterations maximum (5000 if null given)
+     * @param fit The fitness we want to use
      * @return The best chessboard
      */
-    public static Chessboard execute(int chessboardSize, Integer tabuSizeTab, Integer maxIt)
+    public static Chessboard execute(int chessboardSize, Integer tabuSizeTab, Integer maxIt, FitnessEnum fit)
     {
         //Init parameters variables
-        int maxIterations = maxIt != null ? maxIt : TabuSearch.MAX_ITERATIONS;
-        int tabuTabSize = tabuSizeTab != null ? tabuSizeTab : TabuSearch.TABU_LIST_SIZE;
+        int maxIterations = maxIt != null ? maxIt : MAX_ITERATIONS;
+        int tabuTabSize = tabuSizeTab != null ? tabuSizeTab : TABU_LIST_SIZE;
+        FitnessEnum fitness = fit != null ? fit : FITNESS_TYPE;
         
         //First let's take a random solution
         Chessboard solution = new Chessboard(chessboardSize);
@@ -36,59 +40,56 @@ public abstract class TabuSearch
         
         //Save the best solution
         Chessboard bestSolution = solution;
-        int bestFitness = solution.fitnessConflict();
+        int bestFitness = solution.computeFitness(fitness);
         
         //Current iteraton & max iteration number
         int currentIteration = 0;
         
         //The list of neighbours without tabu neighbours
-        ArrayList<Chessboard> neighsWithoutTabu;
+        ArrayList<String> neighsWithoutTabu;
         
         do
         {
-            ArrayList<Chessboard> neighs = solution.getNeighbours();
+            ArrayList<String> neighs = solution.getNeighboursString();
             
             neighsWithoutTabu = TabuSearch.getNeighsNotTabu(neighs, tabu);
             
-            Chessboard choosedNeigh = TabuSearch.chooseRandomNeighbours(neighs);
+            String choosedNeigh = TabuSearch.chooseRandomNeighbours(neighs);
+            Chessboard neighChess = new Chessboard(chessboardSize, choosedNeigh);
             
-            int neighFitness = choosedNeigh.fitnessConflict();
-            int solutionFitness = choosedNeigh.fitnessConflict();
+            int neighFitness = neighChess.computeFitness(fitness);
+            int solutionFitness = neighChess.computeFitness(fitness);
             
             int deltaFitness = neighFitness - solutionFitness;
             
             if(deltaFitness >= 0)
             {
-                TabuSearch.addToTabuList(tabu, choosedNeigh.getSolution(), tabuTabSize);
+                TabuSearch.addToTabuList(tabu, neighChess.getSolution(), tabuTabSize);
             }
             
             if(neighFitness < bestFitness)
             {
-                bestSolution = choosedNeigh;
+                bestSolution = neighChess;
                 bestFitness =  neighFitness;
             }
             
-            solution = choosedNeigh;
+            solution = neighChess;
             currentIteration++;
         }while(currentIteration < maxIterations && !neighsWithoutTabu.isEmpty());
         
         return bestSolution;
     }
     
-    public static ArrayList<Chessboard> getNeighsNotTabu(ArrayList<Chessboard> neighs, ArrayList<String> tabu)
+    public static ArrayList<String> getNeighsNotTabu(ArrayList<String> neighs, ArrayList<String> tabu)
     {
-        ArrayList<Chessboard> ret = new ArrayList();
-        for(Chessboard chessboard : neighs)
+        tabu.stream().filter((sol) -> (neighs.contains(sol))).forEach((sol) ->
         {
-            if(!tabu.contains(chessboard.getSolution()))
-            {
-                ret.add(chessboard);
-            }
-        }
-        return ret;
+            neighs.remove(sol);
+        });
+        return neighs;
     }
     
-    private static Chessboard chooseRandomNeighbours(ArrayList<Chessboard> neighs)
+    private static String chooseRandomNeighbours(ArrayList<String> neighs)
     {
         int rand = (int) (Math.random() * (neighs.size()-1));
         return neighs.get(rand);

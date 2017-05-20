@@ -5,6 +5,7 @@
  */
 package n.queens.problem;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -51,7 +52,25 @@ public class Chessboard {
         }
     }
     
-    public int fitnessConflict()
+    public int computeFitness(FitnessEnum fitness)
+    {
+        if(fitness == null)
+            fitness = FitnessEnum.CONFLICT;
+        int fitnessResult = 0;
+        switch(fitness)
+        {
+            case CONFLICT:
+                fitnessResult = this.fitnessConflict();
+                break;
+                
+            default:
+                fitnessResult = this.fitnessConflict();
+                break;
+        }
+        return fitnessResult;
+    }
+    
+    private int fitnessConflict()
     {
         int fitness = 0;
         for(int i=0; i<this.size-1; i++)
@@ -105,6 +124,24 @@ public class Chessboard {
                 neighbour[i] = neighbour[j];
                 neighbour[j] = tmp;
                 neighbours.add(new Chessboard(neighbour));
+            }
+        }
+        return neighbours;
+    }
+    
+    public ArrayList<String> getNeighboursString()
+    {
+        ArrayList<String> neighbours = new ArrayList();
+        for(int i=0; i<this.size-1; i++)
+        {
+            String[] neighbour = new String[this.size];
+            System.arraycopy(this.columns, 0, neighbour, 0, this.size);
+            for(int j=i+1; j<this.size; j++)
+            {
+                String tmp = neighbour[i];
+                neighbour[i] = neighbour[j];
+                neighbour[j] = tmp;
+                neighbours.add(Arrays.toString(neighbour));
             }
         }
         return neighbours;

@@ -22,14 +22,14 @@ public class NQueensProblem
     {
         System.out.println("Simulated annealing:");
         long time = System.currentTimeMillis();
-        Chessboard c = SimulatingAnnealing.execute(100, null, null, null);
-        System.out.println(c.fitnessConflict());
+        Chessboard c = SimulatingAnnealing.execute(100, null, null, null, null);
+        System.out.println(c.computeFitness(null));
         System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
         
         System.out.println("Tabu search:");
         time = System.currentTimeMillis();
-        c = TabuSearch.execute(100, null, null);
-        System.out.println(c.fitnessConflict());
+        c = TabuSearch.execute(25, null, null, null);
+        System.out.println(c.computeFitness(null));
         System.out.println("Tabu take "+(System.currentTimeMillis() - time)+" ms");
         
     }

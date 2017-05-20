@@ -15,9 +15,9 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class TabuSearch
 {
-    private static final int TABU_LIST_SIZE = 7;
-    private static final int MAX_ITERATIONS = 5000;
-    private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static final int TABU_LIST_SIZE = 7;
+    public static final int MAX_ITERATIONS = 5000;
+    public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
     
     /**
      * Method to execute tabu search algorithm on given chessboard size with given parameters

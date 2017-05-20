@@ -14,10 +14,10 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class SimulatingAnnealing
 {
-    private static final int MAX_ITERATIONS = 10000;
-    private static final float TEMPERATURE_STROPPING_THRESHOLD = 0.001f;
-    private static final float TEMPRATURE_VARIATION_MULTIPLIER = 0.99f;
-    private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static final int MAX_ITERATIONS = 10000;
+    public static final float TEMPERATURE_STROPPING_THRESHOLD = 0.001f;
+    public static final float TEMPRATURE_VARIATION_MULTIPLIER = 0.99f;
+    public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
     
     /**
      * Execute a simulated annealing algorithm over a chessboard with given parameters

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package view;
+import java.awt.Point;
+import java.util.ArrayList;
 import n.queens.problem.FitnessEnum;
 import javax.swing.DefaultComboBoxModel;
 import metaheuristics.Genetic;
@@ -17,7 +19,7 @@ import n.queens.problem.Chessboard;
  */
 public class MainWindow extends javax.swing.JFrame
 {
-
+    private Chessboard lastResult;
     /**
      * Creates new form MainWindow
      */
@@ -71,6 +73,8 @@ public class MainWindow extends javax.swing.JFrame
         executionTimeTabu = new javax.swing.JLabel();
         bestFitnessTabuLabel = new javax.swing.JLabel();
         executionTimeTabuLabel = new javax.swing.JLabel();
+        fitnessCurveTabuButton = new javax.swing.JButton();
+        showSolutionTabuButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         populationSizeGenetic = new javax.swing.JTextField();
         populationSizeGeneticLabel = new javax.swing.JLabel();
@@ -85,9 +89,11 @@ public class MainWindow extends javax.swing.JFrame
         executionTimeGeneticLabel = new javax.swing.JLabel();
         executionTimeGenetic = new javax.swing.JLabel();
         mutationProbaGeneticLabel = new javax.swing.JLabel();
-        mutationProbaGeneticField = new javax.swing.JTextField();
+        mutationProbability = new javax.swing.JTextField();
         fitnessChoosenGenetic = new javax.swing.JComboBox<>();
         fitnessChoosenGeneticLabel = new javax.swing.JLabel();
+        fitnessCurveGeneticButton = new javax.swing.JButton();
+        showSolutionGeneticButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("N Queens problem");
@@ -340,6 +346,34 @@ public class MainWindow extends javax.swing.JFrame
         executionTimeTabuLabel.setText("Execution time ");
         executionTimeTabuLabel.setPreferredSize(new java.awt.Dimension(106, 30));
 
+        fitnessCurveTabuButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessCurveTabuButton.setText("Show fitness curve");
+        fitnessCurveTabuButton.setEnabled(false);
+        fitnessCurveTabuButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        fitnessCurveTabuButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        fitnessCurveTabuButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        fitnessCurveTabuButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                fitnessCurveTabuButtonActionPerformed(evt);
+            }
+        });
+
+        showSolutionTabuButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        showSolutionTabuButton.setText("Show solution");
+        showSolutionTabuButton.setEnabled(false);
+        showSolutionTabuButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        showSolutionTabuButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        showSolutionTabuButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        showSolutionTabuButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                showSolutionTabuButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -351,21 +385,6 @@ public class MainWindow extends javax.swing.JFrame
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tabuListSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fitnessChoosenTabuLabel)
-                            .addComponent(maxIterationsTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(runTabu))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tabuListSizeField)
-                                .addComponent(maxIterationsTabuField)
-                                .addComponent(fitnessChoosenTabu, 0, 135, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -379,7 +398,28 @@ public class MainWindow extends javax.swing.JFrame
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(withSolutionTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(solutionTabu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(solutionTabu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tabuListSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fitnessChoosenTabuLabel)
+                                    .addComponent(maxIterationsTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(runTabu))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tabuListSizeField)
+                                        .addComponent(maxIterationsTabuField)
+                                        .addComponent(fitnessChoosenTabu, 0, 135, Short.MAX_VALUE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(fitnessCurveTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(showSolutionTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -411,7 +451,11 @@ public class MainWindow extends javax.swing.JFrame
                     .addComponent(withSolutionTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(solutionTabu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bestFitnessTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fitnessCurveTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showSolutionTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         maxIterationsTabuField.setText(Integer.toString(TabuSearch.MAX_ITERATIONS));
@@ -488,15 +532,43 @@ public class MainWindow extends javax.swing.JFrame
         mutationProbaGeneticLabel.setMinimumSize(new java.awt.Dimension(225, 30));
         mutationProbaGeneticLabel.setPreferredSize(new java.awt.Dimension(225, 30));
 
-        mutationProbaGeneticField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        mutationProbaGeneticField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        mutationProbaGeneticField.setToolTipText("");
+        mutationProbability.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        mutationProbability.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        mutationProbability.setToolTipText("");
 
         fitnessChoosenGenetic.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         fitnessChoosenGenetic.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
 
         fitnessChoosenGeneticLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         fitnessChoosenGeneticLabel.setText("Fitness type");
+
+        fitnessCurveGeneticButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessCurveGeneticButton.setText("Show fitness curve");
+        fitnessCurveGeneticButton.setEnabled(false);
+        fitnessCurveGeneticButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        fitnessCurveGeneticButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        fitnessCurveGeneticButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        fitnessCurveGeneticButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                fitnessCurveGeneticButtonActionPerformed(evt);
+            }
+        });
+
+        showSolutionGeneticButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        showSolutionGeneticButton.setText("Show solution");
+        showSolutionGeneticButton.setEnabled(false);
+        showSolutionGeneticButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        showSolutionGeneticButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        showSolutionGeneticButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        showSolutionGeneticButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                showSolutionGeneticButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -535,13 +607,17 @@ public class MainWindow extends javax.swing.JFrame
                                             .addComponent(populationSizeGenetic))
                                         .addGap(127, 127, 127))))
                             .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(fitnessCurveGeneticButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(showSolutionGeneticButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(mutationProbaGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(fitnessChoosenGeneticLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(fitnessChoosenGenetic, 0, 147, Short.MAX_VALUE)
-                                    .addComponent(mutationProbaGeneticField))))
+                                    .addComponent(mutationProbability))))
                         .addGap(0, 236, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -561,14 +637,14 @@ public class MainWindow extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mutationProbaGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mutationProbaGeneticField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mutationProbability, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fitnessChoosenGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fitnessChoosenGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                .addGap(45, 45, 45)
                 .addComponent(runGenetic)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(executionTimeGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(executionTimeGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -578,12 +654,16 @@ public class MainWindow extends javax.swing.JFrame
                     .addComponent(withSolutionTabuLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(solutionGenetic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bestFitnessGeneticLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fitnessCurveGeneticButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showSolutionGeneticButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
-        tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
-        //maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));
-        tabuListSizeField.setText(Integer.toString(TabuSearch.TABU_LIST_SIZE));
+        populationSizeGenetic.setText(Integer.toString(Genetic.POPULATION_SIZE));
+        maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));
+        mutationProbability.setText(Integer.toString(Genetic.MUTATION_PROBABILITY));
         fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 
         methodPane.addTab("Genetic Algorithm", jPanel3);
@@ -632,6 +712,9 @@ public class MainWindow extends javax.swing.JFrame
                 Float.parseFloat(this.temperatureThresholdField.getText()), Float.parseFloat(this.temperatureVariationMulField.getText()), (FitnessEnum)this.fitnessChoosenAnnealing.getSelectedItem());
         time = System.currentTimeMillis() - time;
         this.fillResults(time, chessSol);
+        fitnessCurveAnnealingButton.setEnabled(true);
+        showSolutionAnnealingButton.setEnabled(chessSol.getColumns().length <= 35);         
+        lastResult = chessSol;
     }//GEN-LAST:event_runAnnealingActionPerformed
 
     private void maxIterationsTabuFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_maxIterationsTabuFieldActionPerformed
@@ -646,6 +729,9 @@ public class MainWindow extends javax.swing.JFrame
                 Integer.parseInt(this.maxIterationsTabuField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
         time = System.currentTimeMillis() - time;
         this.fillResults(time, chessSol);
+        fitnessCurveTabuButton.setEnabled(true);
+        showSolutionTabuButton.setEnabled(chessSol.getColumns().length <= 35);         
+        lastResult = chessSol;
     }//GEN-LAST:event_runTabuActionPerformed
 
     private void maxIterationsGeneticFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_maxIterationsGeneticFieldActionPerformed
@@ -656,12 +742,57 @@ public class MainWindow extends javax.swing.JFrame
     private void runGeneticActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runGeneticActionPerformed
     {//GEN-HEADEREND:event_runGeneticActionPerformed
         long time = System.currentTimeMillis();
-        //Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
-                //Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
+        Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.populationSizeGenetic.getText()),
+                Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem(), 
+                Integer.parseInt(mutationProbability.getText()));
         time = System.currentTimeMillis() - time;
-        this.fillResults(time, null);
+        this.fillResults(time, chessSol);
+        fitnessCurveGeneticButton.setEnabled(true);
+        showSolutionGeneticButton.setEnabled(chessSol.getColumns().length <= 35);         
+        lastResult = chessSol;
     }//GEN-LAST:event_runGeneticActionPerformed
+
+    private void fitnessCurveAnnealingButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_fitnessCurveAnnealingButtonActionPerformed
+    {//GEN-HEADEREND:event_fitnessCurveAnnealingButtonActionPerformed
+        showCurve("Simulated Annealing fitness evolution", SimulatingAnnealing.steps);
+    }//GEN-LAST:event_fitnessCurveAnnealingButtonActionPerformed
+
+    private void showSolutionAnnealingButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_showSolutionAnnealingButtonActionPerformed
+    {//GEN-HEADEREND:event_showSolutionAnnealingButtonActionPerformed
+        showSolution();
+    }//GEN-LAST:event_showSolutionAnnealingButtonActionPerformed
+
+    private void fitnessCurveGeneticButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_fitnessCurveGeneticButtonActionPerformed
+    {//GEN-HEADEREND:event_fitnessCurveGeneticButtonActionPerformed
+        showCurve("Genetic algorithm fitness evolution (mean for each generation)", Genetic.steps);
+    }//GEN-LAST:event_fitnessCurveGeneticButtonActionPerformed
+
+    private void showSolutionGeneticButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_showSolutionGeneticButtonActionPerformed
+    {//GEN-HEADEREND:event_showSolutionGeneticButtonActionPerformed
+        showSolution();
+    }//GEN-LAST:event_showSolutionGeneticButtonActionPerformed
+
+    private void fitnessCurveTabuButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_fitnessCurveTabuButtonActionPerformed
+    {//GEN-HEADEREND:event_fitnessCurveTabuButtonActionPerformed
+        showCurve("Tabu search fitness evolution", TabuSearch.steps);
+    }//GEN-LAST:event_fitnessCurveTabuButtonActionPerformed
+
+    private void showSolutionTabuButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_showSolutionTabuButtonActionPerformed
+    {//GEN-HEADEREND:event_showSolutionTabuButtonActionPerformed
+        showSolution();
+    }//GEN-LAST:event_showSolutionTabuButtonActionPerformed
+   
+    private void showCurve(String name, ArrayList<Point> steps)
+    {
+        Curve curve = new Curve(name, "Iteration", "Fitness", steps, this);
+        curve.setVisible(true); 
+    }
     
+    private void showSolution()
+    {
+        SolutionDisplay solutionView = new SolutionDisplay(lastResult, this);
+        solutionView.setVisible(true);
+    }
     
     private void fillResults(long executionTime, Chessboard solution)
     {
@@ -754,6 +885,9 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JLabel fitnessChoosenGeneticLabel;
     private javax.swing.JComboBox<FitnessEnum> fitnessChoosenTabu;
     private javax.swing.JLabel fitnessChoosenTabuLabel;
+    private javax.swing.JButton fitnessCurveAnnealingButton;
+    private javax.swing.JButton fitnessCurveGeneticButton;
+    private javax.swing.JButton fitnessCurveTabuButton;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField maxIterationsAnnealingField;
@@ -763,13 +897,16 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JTextField maxIterationsTabuField;
     private javax.swing.JLabel maxIterationsTabuLabel;
     private javax.swing.JTabbedPane methodPane;
-    private javax.swing.JTextField mutationProbaGeneticField;
     private javax.swing.JLabel mutationProbaGeneticLabel;
+    private javax.swing.JTextField mutationProbability;
     private javax.swing.JTextField populationSizeGenetic;
     private javax.swing.JLabel populationSizeGeneticLabel;
     private javax.swing.JButton runAnnealing;
     private javax.swing.JButton runGenetic;
     private javax.swing.JButton runTabu;
+    private javax.swing.JButton showSolutionAnnealingButton;
+    private javax.swing.JButton showSolutionGeneticButton;
+    private javax.swing.JButton showSolutionTabuButton;
     private javax.swing.JLabel simuAnnealingLabel;
     private javax.swing.JLabel solutionAnnealing;
     private javax.swing.JLabel solutionGenetic;

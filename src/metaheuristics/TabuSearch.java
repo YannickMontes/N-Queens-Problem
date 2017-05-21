@@ -5,6 +5,7 @@
  */
 package metaheuristics;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import n.queens.problem.Chessboard;
 import n.queens.problem.FitnessEnum;
@@ -18,6 +19,7 @@ public abstract class TabuSearch
     public static final int TABU_LIST_SIZE = 7;
     public static final int MAX_ITERATIONS = 5000;
     public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static ArrayList<Point> steps;
     
     /**
      * Method to execute tabu search algorithm on given chessboard size with given parameters
@@ -48,6 +50,8 @@ public abstract class TabuSearch
         //The list of neighbours without tabu neighbours
         ArrayList<String> neighsWithoutTabu;
         
+        steps = new ArrayList<>();
+        
         do
         {
             ArrayList<String> neighs = solution.getNeighboursString();
@@ -58,7 +62,7 @@ public abstract class TabuSearch
             Chessboard neighChess = new Chessboard(chessboardSize, choosedNeigh);
             
             int neighFitness = neighChess.computeFitness(fitness);
-            int solutionFitness = neighChess.computeFitness(fitness);
+            int solutionFitness = solution.computeFitness(fitness);
             
             int deltaFitness = neighFitness - solutionFitness;
             
@@ -74,8 +78,12 @@ public abstract class TabuSearch
             }
             
             solution = neighChess;
+            steps.add(new Point(currentIteration, neighFitness));
+            
             currentIteration++;
         }while(currentIteration < maxIterations && !neighsWithoutTabu.isEmpty());
+        
+        steps.add(new Point(currentIteration, solution.getFitness()));
         
         return bestSolution;
     }

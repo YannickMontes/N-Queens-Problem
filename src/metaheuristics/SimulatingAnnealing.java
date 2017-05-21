@@ -5,6 +5,8 @@
  */
 package metaheuristics;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import n.queens.problem.Chessboard;
 import n.queens.problem.FitnessEnum;
 
@@ -18,6 +20,7 @@ public abstract class SimulatingAnnealing
     public static final float TEMPERATURE_STROPPING_THRESHOLD = 0.001f;
     public static final float TEMPRATURE_VARIATION_MULTIPLIER = 0.99f;
     public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static ArrayList<Point> steps;
     
     /**
      * Execute a simulated annealing algorithm over a chessboard with given parameters
@@ -47,6 +50,8 @@ public abstract class SimulatingAnnealing
         Chessboard bestSolution = null;
         int bestFitness = Integer.MAX_VALUE;
         
+        steps = new ArrayList<>();
+        
         
         int currentIteration = 0;
                 
@@ -60,6 +65,8 @@ public abstract class SimulatingAnnealing
             int solutionFitness = solution.computeFitness(fitness);
             int neighFitness = choosedNeigh.computeFitness(fitness);
             int deltaFitness = neighFitness - solutionFitness;
+            
+
             
             //If the neighbour is better
             if(deltaFitness < 0)
@@ -83,11 +90,15 @@ public abstract class SimulatingAnnealing
                 if(rand <= Math.exp( (deltaFitness/temperature)))
                 {
                     solution = choosedNeigh;
+                    solutionFitness = neighFitness;
                 }
             }
+            steps.add(new Point(currentIteration, solutionFitness));
+
             //Finally we update our temperature
             temperature *= variationTemperatureMultiplier;
             currentIteration += 1;
+            
         }
         System.out.println(currentIteration + " - "+temperature);
 

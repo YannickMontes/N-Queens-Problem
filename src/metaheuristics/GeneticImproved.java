@@ -5,7 +5,6 @@
  */
 package metaheuristics;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -16,13 +15,12 @@ import n.queens.problem.FitnessEnum;
  *
  * @author yannick
  */
-public abstract class Genetic {
+public abstract class GeneticImproved {
 
-    public static final int MAX_ITERATIONS = 1000;
-    public static final int POPULATION_SIZE = 100;
-    public static final int MUTATION_PROBABILITY = 10;
-    public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
-    public static ArrayList<Point> steps;
+    private static final int MAX_ITERATIONS = 1000;
+    private static final int POPULATION_SIZE = 100;
+    private static final int MUTATION_PROBABILITY = 10;
+    private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
     /**
      * Method to execute tabu search algorithm on given chessboard size with
@@ -160,12 +158,42 @@ public abstract class Genetic {
         Random rand = new Random();
         int splitIndex = rand.nextInt(chessboardSize);
 
-        String[] leftSolution = father.getColumnsBefore(splitIndex);
-        String[] rightSolution = mother.getColumnsAfter(splitIndex);
+        String[] leftSolution = mother.getColumnsBefore(splitIndex);
+        String[] rightSolution = father.getColumnsAfter(splitIndex);
+        String[] newRightSolution = new String[rightSolution.length];
+        
+        //System.arraycopy(rightSolution, 0, newRightSolution, 0, rightSolution.length);
 
-        String[] solution = combineSolutions(leftSolution, rightSolution);
+        for(int i = 0; i < rightSolution.length; i++) {
+            String tmp = rightSolution[i];
+            
+            int j = 0;
+            while(containsElementInArray(leftSolution, tmp) || containsElementInArray(newRightSolution, tmp)) {
+                if(j>=father.getColumns().length) {
+                    System.out.println("jfr");
+                }
+                tmp = father.getColumns()[j];
+                
+                j++;
+            }
+            
+            newRightSolution[i] = tmp;
+        }
+        
+        
+        String[] solution = combineSolutions(leftSolution, newRightSolution);
 
         return new Chessboard(solution);
+    }
+    
+    private static boolean containsElementInArray(String[] array, String element) {
+        for (int i = 0; i<array.length; i++) {
+            if (array[i] != null && array[i].equals(element)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private static void mutate(Chessboard son, int mutationProbability) {
@@ -173,7 +201,7 @@ public abstract class Genetic {
         int mutationChance = rand.nextInt(100);
 
         if (mutationChance <= mutationProbability) {
-            son.mutate();
+            son.mutateImproved();
         }
     }
 }

@@ -262,6 +262,19 @@ public class Chessboard
 
         this.fitness = fitnessNoConflitct();
     }
+    
+    public void mutateImproved() {
+        Random rand = new Random(); 
+        int index1 = rand.nextInt(this.size - 1);
+        int index2 = rand.nextInt(this.size - 1);
+        
+        String tmp = this.columns[index1];
+        
+        this.columns[index1] = this.columns[index2];
+        this.columns[index2] = tmp;
+        
+        this.fitness = fitnessNoConflitct();
+    }
 
     public boolean IsInConflict(int value, int index, int comparedValue, int comparedIndex)
     {

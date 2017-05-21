@@ -6,6 +6,7 @@
 package n.queens.problem;
 
 import metaheuristics.Genetic;
+import metaheuristics.GeneticImproved;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
 
@@ -26,7 +27,7 @@ public class NQueensProblem
         chess.getIndexConflicted();
         /*System.out.println("Genetic:");
         long time = System.currentTimeMillis();
-        Chessboard c = Genetic.execute(20, null, null, null, null);
+        Chessboard c = GeneticImproved.execute(100, null, null, null, null);
         System.out.println("Nombre de conflits " + c.computeFitness(null));
         System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");*/
         

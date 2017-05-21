@@ -19,7 +19,7 @@ import n.queens.problem.Chessboard;
  */
 public class MainWindow extends javax.swing.JFrame
 {
-
+    private Chessboard lastResult;
     /**
      * Creates new form MainWindow
      */

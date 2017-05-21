@@ -42,7 +42,7 @@ public class Chessboard {
         
         this.generateColumns();
         
-        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
+        this.fitness = this.computeFitness(FitnessEnum.NO_CONFLICT);
         this.toStringos = this.toString();
     }
     
@@ -59,7 +59,7 @@ public class Chessboard {
         System.arraycopy(cols, 0, this.columns, 0, this.size);
         
         //TO DELETE     
-        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
+        this.fitness = this.computeFitness(FitnessEnum.NO_CONFLICT);
         this.toStringos = this.toString();
     }
     
@@ -88,7 +88,7 @@ public class Chessboard {
                 break;
                 
             case NO_CONFLICT:
-                fitnessResult = this.fitnessConflict();
+                fitnessResult = this.fitnessNoConflitct();
                 break;
                 
             default:
@@ -108,40 +108,22 @@ public class Chessboard {
                 int currentQueen = Integer.parseInt(this.columns[i]);
                 int comparedQueen = Integer.parseInt(this.columns[j]);
                 
-                if(IsOnTheSameDiagonal(i, j, currentQueen, comparedQueen))
-                {
-                    fitness++;
-                }
-                if(IsOnSameColumns(i, j))
+                if(IsOnTheSameDiagonal(i, j, currentQueen, comparedQueen) || IsOnSameColumns(currentQueen, comparedQueen))
                 {
                     fitness++;
                 }
             }
         } 
+        this.fitness = fitness;
+        
         return fitness;
     }
     
     private int fitnessNoConflitct()
-    {
-        int fitness = 0;
-        for(int i=0; i<this.size-1; i++)
-        {
-            for(int j=i+1; j<this.size; j++)
-            {
-                int currentQueen = Integer.parseInt(this.columns[i]);
-                int comparedQueen = Integer.parseInt(this.columns[j]);
-                
-                if(!IsOnTheSameDiagonal(i, j, currentQueen, comparedQueen))
-                {
-                    fitness++;
-                }
-                if(!IsOnSameColumns(i, j))
-                {
-                    fitness++;
-                }
-            }
-        } 
-        return fitness;
+    { 
+        this.fitness = ((this.size * (this.size-1))/2) - fitnessConflict();
+        
+        return ((this.size * (this.size-1))/2) - fitnessConflict();
     }
     
     public void setSolution(String solution)
@@ -252,7 +234,7 @@ public class Chessboard {
     }  
     
     public String[] getColumnsAfter(int index) {
-        return Arrays.copyOfRange(columns, index, 0);
+        return Arrays.copyOfRange(columns, index, columns.length);
     }
     
     public void mutate() {
@@ -261,5 +243,7 @@ public class Chessboard {
         int value = rand.nextInt(this.size - 1);
         
         this.columns[index] = "" + value;
+        
+        this.fitness = fitnessNoConflitct();
     }
 }

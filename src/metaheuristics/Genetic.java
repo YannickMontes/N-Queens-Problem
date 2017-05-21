@@ -17,8 +17,8 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class Genetic {
 
-    private static final int MAX_ITERATIONS = 5000;
-    private static final int POPULATION_SIZE = 5;
+    private static final int MAX_ITERATIONS = 1000;
+    private static final int POPULATION_SIZE = 100;
     private static final int MUTATION_PROBABILITY = 10;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
@@ -38,9 +38,7 @@ public abstract class Genetic {
         FitnessEnum fitness = fit != null ? fit : FITNESS_TYPE;
         int populationSiz = populationSize != null ? populationSize : POPULATION_SIZE;
         int mutationProbability = mutationProb != null ? mutationProb : MUTATION_PROBABILITY;
-        Double fitnessSum = 0.0;
-        Double probaSum = 0.0;
-
+        
         HashMap<Chessboard, Double> population = new HashMap<Chessboard, Double>();
 
         //First let's generate our population
@@ -49,40 +47,64 @@ public abstract class Genetic {
             solution.generateRandomNeigh();
 
             population.put(solution, 0.0);
-            fitnessSum += solution.getFitness();
         }
+        
+        Chessboard bestSolution = (Chessboard) population.keySet().toArray()[0];
 
         //Let's start the algorithm
         for (int i = 0; i < maxIterations; i++) {
+            System.out.println("Génération : " + i);
+            Double fitnessSum = 0.0;
+            Double probaSum = 0.0;
+
+            //Compute the cumulated fitness    
             for (Chessboard c : population.keySet()) {
-                Double proba = probaSum + (100 - ((c.getFitness()/fitnessSum) * 100));
-                population.replace(c, proba);
-                
-                probaSum += proba;
+                fitnessSum += c.getFitness();
+                population.replace(c, 0.0);
+            }
+            
+            //Compute the cumulated probability
+            for (Chessboard c : population.keySet()) {
+                probaSum += (c.getFitness()/fitnessSum) * 100;
+                population.replace(c, probaSum);
             }
 
+            //Create a new population
             HashMap<Chessboard, Double> newPopulation = new HashMap<Chessboard, Double>();
 
-            for (int j = 0; i < populationSiz; i++) {
-                HashMap<Chessboard, Double> tempPopulation = population;
+            for (int j = 0; j < populationSiz; j++) {
+                HashMap<Chessboard, Double> tempPopulation = new HashMap<Chessboard, Double>(population);
                 Double random = Math.random() * 100;
                 Chessboard father = null;
                 Chessboard mother = null;
 
                 for (Chessboard c : tempPopulation.keySet()) {
-                    if (random < tempPopulation.get(c)) {
+                    if (random <= tempPopulation.get(c)) {
                         father = c;
                         tempPopulation.remove(c);
-
+                        
                         break;
                     }
                 }
 
+                probaSum = 0.0;
+                fitnessSum = 0.0;
+                //Compute the cumulated fitness    
                 for (Chessboard c : tempPopulation.keySet()) {
-                    if (random < tempPopulation.get(c)) {
+                    fitnessSum += c.getFitness();
+                }
+                
+                for (Chessboard c : tempPopulation.keySet()) {
+                    probaSum += (c.getFitness()/fitnessSum) * 100;
+                    tempPopulation.replace(c, probaSum);
+                }
+                
+                random = Math.random() * 100;
+                
+                for (Chessboard c : tempPopulation.keySet()) {
+                    if (random <= tempPopulation.get(c)) {
                         mother = c;
-                        tempPopulation.remove(c);
-
+                        
                         break;
                     }
                 }
@@ -107,44 +129,28 @@ public abstract class Genetic {
             }
             
             population = newPopulation;
-        }
-
-        Chessboard bestSolution = (Chessboard) population.keySet().toArray()[0];
-        
-        for (Chessboard c : population.keySet()) {
-            if (c.getFitness() < bestSolution.getFitness()) {
-                bestSolution = c;
+            
+            for (Chessboard c : population.keySet()) {
+                if (c.getFitness() > bestSolution.getFitness()) {
+                    bestSolution = c;
+                }
+            }
+            
+            System.out.println(bestSolution.getFitness());
+            
+            if( bestSolution.getFitness() == (chessboardSize * (chessboardSize-1))/2 ) {
+                return bestSolution;
             }
         }
         
         return bestSolution;
     }
 
-    public static ArrayList<String> getNeighsNotTabu(ArrayList<String> neighs, ArrayList<String> tabu) {
-        tabu.stream().filter((sol) -> (neighs.contains(sol))).forEach((sol)
-                -> {
-            neighs.remove(sol);
-        });
-        return neighs;
-    }
-
-    private static String chooseRandomNeighbours(ArrayList<String> neighs) {
-        int rand = (int) (Math.random() * (neighs.size() - 1));
-        return neighs.get(rand);
-    }
-
-    private static void addToTabuList(ArrayList<String> tabu, String solution, int tabuTabSize) {
-        if (tabu.size() == tabuTabSize) {
-            tabu.remove(0);
-        }
-        tabu.add(solution);
-    }
-
     private static String[] combineSolutions(String[] leftSolution, String[] rightSolution) {
         int length = leftSolution.length + rightSolution.length;
         String[] result = new String[length];
         System.arraycopy(leftSolution, 0, result, 0, leftSolution.length);
-        System.arraycopy(rightSolution, 0, result, rightSolution.length, rightSolution.length);
+        System.arraycopy(rightSolution, 0, result, leftSolution.length, rightSolution.length);
 
         return result;
     }

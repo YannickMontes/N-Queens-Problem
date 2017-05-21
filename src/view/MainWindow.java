@@ -656,10 +656,10 @@ public class MainWindow extends javax.swing.JFrame
     private void runGeneticActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runGeneticActionPerformed
     {//GEN-HEADEREND:event_runGeneticActionPerformed
         long time = System.currentTimeMillis();
-        Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
-                Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
+        //Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
+                //Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
         time = System.currentTimeMillis() - time;
-        this.fillResults(time, chessSol);
+        this.fillResults(time, null);
     }//GEN-LAST:event_runGeneticActionPerformed
     
     

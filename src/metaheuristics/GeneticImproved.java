@@ -15,7 +15,7 @@ import n.queens.problem.FitnessEnum;
  *
  * @author yannick
  */
-public abstract class Genetic {
+public abstract class GeneticImproved {
 
     private static final int MAX_ITERATIONS = 1000;
     private static final int POPULATION_SIZE = 100;
@@ -157,13 +157,41 @@ public abstract class Genetic {
     private static Chessboard makeCrossing(Chessboard mother, Chessboard father, int chessboardSize) {
         Random rand = new Random();
         int splitIndex = rand.nextInt(chessboardSize);
-
+        
         String[] leftSolution = father.getColumnsBefore(splitIndex);
+        
         String[] rightSolution = mother.getColumnsAfter(splitIndex);
+        String[] newRightSolution = new String[rightSolution.length];
+                
+        
+        for (int i = 0; i<rightSolution.length; i++) {
+            String tmp = rightSolution[i];
+            
+            int j = 0;
+            while (containsElementInArray(leftSolution, tmp)) {
+                if(j>=mother.getColumns().length) {
+                    System.out.println("HICH");
+                }
+                tmp = mother.getColumns()[j];
+                j++;
+            }
+            
+            newRightSolution[i] = tmp;
+        }
 
-        String[] solution = combineSolutions(leftSolution, rightSolution);
+        String[] solution = combineSolutions(leftSolution, newRightSolution);
 
         return new Chessboard(solution);
+    }
+    
+    private static boolean containsElementInArray(String[] array, String element) {
+        for (int i = 0; i<array.length; i++) {
+            if (array[i] == element ) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private static void mutate(Chessboard son, int mutationProbability) {
@@ -171,7 +199,7 @@ public abstract class Genetic {
         int mutationChance = rand.nextInt(100);
 
         if (mutationChance <= mutationProbability) {
-            son.mutate();
+            son.mutateImproved();
         }
     }
 }

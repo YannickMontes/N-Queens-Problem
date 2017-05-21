@@ -17,9 +17,9 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class Genetic {
 
-    private static final int MAX_ITERATIONS = 1000;
+    private static final int MAX_ITERATIONS = 100;
     private static final int POPULATION_SIZE = 100;
-    private static final int MUTATION_PROBABILITY = 10;
+    private static final int MUTATION_PROBABILITY = 20;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
     /**
@@ -38,36 +38,30 @@ public abstract class Genetic {
         FitnessEnum fitness = fit != null ? fit : FITNESS_TYPE;
         int populationSiz = populationSize != null ? populationSize : POPULATION_SIZE;
         int mutationProbability = mutationProb != null ? mutationProb : MUTATION_PROBABILITY;
-        
+
         HashMap<Chessboard, Double> population = new HashMap<Chessboard, Double>();
 
         //First let's generate our population
-        for (int i = 0; i < populationSiz; i++) {
-            Chessboard solution = new Chessboard(chessboardSize);
-            solution.generateRandomNeigh();
+        generateFirstPopulation(population, populationSiz, chessboardSize);
 
-            population.put(solution, 0.0);
-        }
-        
+        //Initialize the best solution
         Chessboard bestSolution = (Chessboard) population.keySet().toArray()[0];
+        for (Chessboard c : population.keySet()) {
+            if (c.getFitness() < bestSolution.getFitness()) {
+                bestSolution = c;
+            }
+
+            if (c.getFitness() == 0) {
+                return c;
+            }
+        }
 
         //Let's start the algorithm
         for (int i = 0; i < maxIterations; i++) {
             System.out.println("Génération : " + i);
-            Double fitnessSum = 0.0;
-            Double probaSum = 0.0;
 
-            //Compute the cumulated fitness    
-            for (Chessboard c : population.keySet()) {
-                fitnessSum += c.getFitness();
-                population.replace(c, 0.0);
-            }
-            
             //Compute the cumulated probability
-            for (Chessboard c : population.keySet()) {
-                probaSum += (c.getFitness()/fitnessSum) * 100;
-                population.replace(c, probaSum);
-            }
+            computeCumulatedProbability(population);
 
             //Create a new population
             HashMap<Chessboard, Double> newPopulation = new HashMap<Chessboard, Double>();
@@ -78,71 +72,44 @@ public abstract class Genetic {
                 Chessboard father = null;
                 Chessboard mother = null;
 
-                for (Chessboard c : tempPopulation.keySet()) {
-                    if (random <= tempPopulation.get(c)) {
-                        father = c;
-                        tempPopulation.remove(c);
-                        
-                        break;
-                    }
-                }
+                // ------------------------ SELECTION --------------------------
+                // -------------------------------------------------------------
+                //Select a father
+                father = selectRandomIn(tempPopulation);
+                tempPopulation.remove(father);
 
-                probaSum = 0.0;
-                fitnessSum = 0.0;
-                //Compute the cumulated fitness    
-                for (Chessboard c : tempPopulation.keySet()) {
-                    fitnessSum += c.getFitness();
-                }
-                
-                for (Chessboard c : tempPopulation.keySet()) {
-                    probaSum += (c.getFitness()/fitnessSum) * 100;
-                    tempPopulation.replace(c, probaSum);
-                }
-                
-                random = Math.random() * 100;
-                
-                for (Chessboard c : tempPopulation.keySet()) {
-                    if (random <= tempPopulation.get(c)) {
-                        mother = c;
-                        
-                        break;
-                    }
-                }
+                //Compute again the cumulated probability without father
+                computeCumulatedProbability(tempPopulation);
 
-                Random rand = new Random();
-                int splitIndex = rand.nextInt(chessboardSize);
+                mother = selectRandomIn(tempPopulation);
 
-                String[] leftSolution = father.getColumnsBefore(splitIndex);
-                String[] rightSolution = mother.getColumnsAfter(splitIndex);
+                // ------------------------ CROSSING ---------------------------
+                // -------------------------------------------------------------
+                Chessboard son = makeCrossing(mother, father, chessboardSize);
 
-                String[] solution = combineSolutions(leftSolution, rightSolution);
+                // ------------------------ MUTATION ---------------------------
+                // -------------------------------------------------------------
+                mutate(son, chessboardSize);
 
-                Chessboard finalSolution = new Chessboard(solution);
-
-                int mutationChance = rand.nextInt(100);
-
-                if (mutationChance <= mutationProbability) {
-                    finalSolution.mutate();
-                }
-
-                newPopulation.put(finalSolution, 0.0);
+                //Fill the new population
+                newPopulation.put(son, 0.0);
             }
-            
+
             population = newPopulation;
-            
+
             for (Chessboard c : population.keySet()) {
-                if (c.getFitness() > bestSolution.getFitness()) {
+                if (c.getFitness() < bestSolution.getFitness()) {
                     bestSolution = c;
                 }
+                
+                if (c.getFitness() == 0) {
+                    return c;
+                }
             }
-            
+
             System.out.println(bestSolution.getFitness());
-            
-            if( bestSolution.getFitness() == (chessboardSize * (chessboardSize-1))/2 ) {
-                return bestSolution;
-            }
         }
-        
+
         return bestSolution;
     }
 
@@ -153,5 +120,64 @@ public abstract class Genetic {
         System.arraycopy(rightSolution, 0, result, leftSolution.length, rightSolution.length);
 
         return result;
+    }
+
+    private static void computeCumulatedProbability(HashMap<Chessboard, Double> population) {
+        Double fitnessSum = 0.0;
+        Double probaSum = 0.0;
+
+        //Compute the cumulated fitness    
+        for (Chessboard c : population.keySet()) {
+            fitnessSum += 1d / c.getFitness();
+            population.replace(c, 0.0);
+        }
+
+        //Compute the cumulated probability
+        for (Chessboard c : population.keySet()) {
+            probaSum += ((1d / c.getFitness()) / fitnessSum) * 100;
+            population.replace(c, probaSum);
+        }
+    }
+
+    private static void generateFirstPopulation(HashMap<Chessboard, Double> population, int populationSize, int chessboardSize) {
+        for (int i = 0; i < populationSize; i++) {
+            Chessboard solution = new Chessboard(chessboardSize);
+            solution.generateRandomNeigh();
+
+            population.put(solution, 0.0);
+        }
+    }
+
+    private static Chessboard selectRandomIn(HashMap<Chessboard, Double> population) {
+        Double random = Math.random() * 100;
+
+        for (Chessboard c : population.keySet()) {
+            if (random <= population.get(c)) {
+                return c;
+            }
+        }
+
+        return null;
+    }
+
+    private static Chessboard makeCrossing(Chessboard mother, Chessboard father, int chessboardSize) {
+        Random rand = new Random();
+        int splitIndex = rand.nextInt(chessboardSize);
+
+        String[] leftSolution = father.getColumnsBefore(splitIndex);
+        String[] rightSolution = mother.getColumnsAfter(splitIndex);
+
+        String[] solution = combineSolutions(leftSolution, rightSolution);
+
+        return new Chessboard(solution);
+    }
+
+    private static void mutate(Chessboard son, int mutationProbability) {
+        Random rand = new Random();
+        int mutationChance = rand.nextInt(100);
+
+        if (mutationChance <= mutationProbability) {
+            son.mutate();
+        }
     }
 }

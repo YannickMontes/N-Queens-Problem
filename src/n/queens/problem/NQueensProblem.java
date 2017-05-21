@@ -24,7 +24,7 @@ public class NQueensProblem
         System.out.println("Genetic:");
         long time = System.currentTimeMillis();
         Chessboard c = Genetic.execute(20, null, null, null, null);
-        System.out.println(c.computeFitness(null));
+        System.out.println("Nombre de conflits " + c.computeFitness(null));
         System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
         
         /*System.out.println("Simulated annealing:");

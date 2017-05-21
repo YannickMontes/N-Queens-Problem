@@ -42,7 +42,7 @@ public class Chessboard {
         
         this.generateColumns();
         
-        this.fitness = this.computeFitness(FitnessEnum.NO_CONFLICT);
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
         this.toStringos = this.toString();
     }
     
@@ -59,7 +59,7 @@ public class Chessboard {
         System.arraycopy(cols, 0, this.columns, 0, this.size);
         
         //TO DELETE     
-        this.fitness = this.computeFitness(FitnessEnum.NO_CONFLICT);
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
         this.toStringos = this.toString();
     }
     

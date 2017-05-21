@@ -157,28 +157,30 @@ public abstract class GeneticImproved {
     private static Chessboard makeCrossing(Chessboard mother, Chessboard father, int chessboardSize) {
         Random rand = new Random();
         int splitIndex = rand.nextInt(chessboardSize);
-        
-        String[] leftSolution = father.getColumnsBefore(splitIndex);
-        
-        String[] rightSolution = mother.getColumnsAfter(splitIndex);
+
+        String[] leftSolution = mother.getColumnsBefore(splitIndex);
+        String[] rightSolution = father.getColumnsAfter(splitIndex);
         String[] newRightSolution = new String[rightSolution.length];
-                
         
-        for (int i = 0; i<rightSolution.length; i++) {
+        //System.arraycopy(rightSolution, 0, newRightSolution, 0, rightSolution.length);
+
+        for(int i = 0; i < rightSolution.length; i++) {
             String tmp = rightSolution[i];
             
             int j = 0;
-            while (containsElementInArray(leftSolution, tmp)) {
-                if(j>=mother.getColumns().length) {
-                    System.out.println("HICH");
+            while(containsElementInArray(leftSolution, tmp) || containsElementInArray(newRightSolution, tmp)) {
+                if(j>=father.getColumns().length) {
+                    System.out.println("jfr");
                 }
-                tmp = mother.getColumns()[j];
+                tmp = father.getColumns()[j];
+                
                 j++;
             }
             
             newRightSolution[i] = tmp;
         }
-
+        
+        
         String[] solution = combineSolutions(leftSolution, newRightSolution);
 
         return new Chessboard(solution);
@@ -186,7 +188,7 @@ public abstract class GeneticImproved {
     
     private static boolean containsElementInArray(String[] array, String element) {
         for (int i = 0; i<array.length; i++) {
-            if (array[i] == element ) {
+            if (array[i] != null && array[i].equals(element)) {
                 return true;
             }
         }

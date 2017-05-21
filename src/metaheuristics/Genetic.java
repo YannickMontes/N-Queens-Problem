@@ -5,6 +5,7 @@
  */
 package metaheuristics;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -17,10 +18,11 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class Genetic {
 
-    private static final int MAX_ITERATIONS = 5000;
-    private static final int POPULATION_SIZE = 5;
-    private static final int MUTATION_PROBABILITY = 10;
-    private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static final int MAX_ITERATIONS = 5000;
+    public static final int POPULATION_SIZE = 5;
+    public static final int MUTATION_PROBABILITY = 10;
+    public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static ArrayList<Point> steps;
 
     /**
      * Method to execute tabu search algorithm on given chessboard size with
@@ -40,6 +42,8 @@ public abstract class Genetic {
         int mutationProbability = mutationProb != null ? mutationProb : MUTATION_PROBABILITY;
         Double fitnessSum = 0.0;
         Double probaSum = 0.0;
+        
+        steps = new ArrayList<>();
 
         HashMap<Chessboard, Double> population = new HashMap<Chessboard, Double>();
 
@@ -107,6 +111,14 @@ public abstract class Genetic {
             }
             
             population = newPopulation;
+            
+            double meanFit = 0.0;
+            for(Chessboard c : population.keySet())
+            {
+                meanFit += c.getFitness();
+            }
+            meanFit = meanFit / populationSiz;
+            steps.add(new Point(i, (int)meanFit));
         }
 
         Chessboard bestSolution = (Chessboard) population.keySet().toArray()[0];

@@ -17,6 +17,7 @@ import n.queens.problem.Chessboard;
  */
 public class MainWindow extends javax.swing.JFrame
 {
+    private Chessboard lastResult = null;
     /**
      * Creates new form MainWindow
      */
@@ -56,6 +57,7 @@ public class MainWindow extends javax.swing.JFrame
         withSolutionAnnealingLabel = new javax.swing.JLabel();
         solutionAnnealing = new javax.swing.JLabel();
         fitnessCurveAnnealingButton = new javax.swing.JButton();
+        showSolutionAnnealingButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         tabuSearchLabel = new javax.swing.JLabel();
         maxIterationsTabuLabel = new javax.swing.JLabel();
@@ -196,6 +198,20 @@ public class MainWindow extends javax.swing.JFrame
             }
         });
 
+        showSolutionAnnealingButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        showSolutionAnnealingButton.setText("Show solution");
+        showSolutionAnnealingButton.setEnabled(false);
+        showSolutionAnnealingButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        showSolutionAnnealingButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        showSolutionAnnealingButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        showSolutionAnnealingButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                showSolutionAnnealingButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout annealingPanelLayout = new javax.swing.GroupLayout(annealingPanel);
         annealingPanel.setLayout(annealingPanelLayout);
         annealingPanelLayout.setHorizontalGroup(
@@ -245,6 +261,8 @@ public class MainWindow extends javax.swing.JFrame
                         .addGap(231, 231, 231))
                     .addGroup(annealingPanelLayout.createSequentialGroup()
                         .addComponent(fitnessCurveAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showSolutionAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         annealingPanelLayout.setVerticalGroup(
@@ -282,7 +300,9 @@ public class MainWindow extends javax.swing.JFrame
                         .addComponent(withSolutionAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(solutionAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fitnessCurveAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fitnessCurveAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showSolutionAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
@@ -654,6 +674,9 @@ public class MainWindow extends javax.swing.JFrame
         time = System.currentTimeMillis() - time;
         this.fillResults(time, chessSol);
         fitnessCurveAnnealingButton.setEnabled(true);
+        showSolutionAnnealingButton.setEnabled(chessSol.getColumns().length <= 35);
+            
+        lastResult = chessSol;
     }//GEN-LAST:event_runAnnealingActionPerformed
 
     private void maxIterationsTabuFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_maxIterationsTabuFieldActionPerformed
@@ -678,10 +701,10 @@ public class MainWindow extends javax.swing.JFrame
     private void runGeneticActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runGeneticActionPerformed
     {//GEN-HEADEREND:event_runGeneticActionPerformed
         long time = System.currentTimeMillis();
-        Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
+        /*Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.tabuListSizeField.getText()),
                 Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem());
         time = System.currentTimeMillis() - time;
-        this.fillResults(time, chessSol);
+        this.fillResults(time, chessSol);*/
     }//GEN-LAST:event_runGeneticActionPerformed
 
     private void fitnessCurveAnnealingButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_fitnessCurveAnnealingButtonActionPerformed
@@ -689,6 +712,12 @@ public class MainWindow extends javax.swing.JFrame
         Curve curve = new Curve("Simulated Annealing Fitness", "Iteration", "Fitness", SimulatingAnnealing.steps, this);
         curve.setVisible(true);     
     }//GEN-LAST:event_fitnessCurveAnnealingButtonActionPerformed
+
+    private void showSolutionAnnealingButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_showSolutionAnnealingButtonActionPerformed
+    {//GEN-HEADEREND:event_showSolutionAnnealingButtonActionPerformed
+        SolutionDisplay solutionView = new SolutionDisplay(lastResult, this);
+        solutionView.setVisible(true);
+    }//GEN-LAST:event_showSolutionAnnealingButtonActionPerformed
     
     
     private void fillResults(long executionTime, Chessboard solution)
@@ -799,6 +828,7 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JButton runAnnealing;
     private javax.swing.JButton runGenetic;
     private javax.swing.JButton runTabu;
+    private javax.swing.JButton showSolutionAnnealingButton;
     private javax.swing.JLabel simuAnnealingLabel;
     private javax.swing.JLabel solutionAnnealing;
     private javax.swing.JLabel solutionGenetic;

@@ -26,6 +26,19 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {   
+        Chessboard board = new Chessboard(100);
+        long t0 = System.currentTimeMillis();
+        board.getNeighbours();
+        long t1 = System.currentTimeMillis() - t0;
+        System.out.println("Get neighs take "+t1);
+        
+        t0 = System.currentTimeMillis();
+        board.getFirstBestNeigh(new ArrayList<String>());
+        t1 = System.currentTimeMillis() - t0;
+        System.out.println("Get first best neighs take "+t1);
+        
+        
+        
         int chessSize = 200;
         double meanTime = 0.0d;
         double meanIteration = 0.0d;

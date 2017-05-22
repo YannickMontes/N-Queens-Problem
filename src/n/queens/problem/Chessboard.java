@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -35,6 +36,19 @@ public class Chessboard
     }
 
     private String toStringos;
+    
+    public Chessboard(int size, boolean alldiago)
+    {
+        this.size = size;
+        this.columns = new String[this.size];
+        
+        for(int i=0; i<this.size; i++)
+        {
+            this.columns[i] = Integer.toString(i);
+        }
+        
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
+    }
 
     public Chessboard(int size)
     {
@@ -61,8 +75,7 @@ public class Chessboard
     public Chessboard(String[] cols)
     {
         this.size = cols.length;
-        this.columns = new String[this.size];
-        System.arraycopy(cols, 0, this.columns, 0, this.size);
+        this.columns = cols;
 
         //TO DELETE     
         this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
@@ -112,23 +125,27 @@ public class Chessboard
 
     private int fitnessConflict()
     {
-        int fitness = 0;
-        for (int i = 0; i < this.size - 1; i++)
+        this.fitness = fitnessConflictGeneric(this.columns);
+        return this.fitness;
+    }
+    
+    private int fitnessConflictGeneric(String[] cols)
+    {
+        int fit = 0;
+        for (int i = 0; i < cols.length - 1; i++)
         {
-            for (int j = i + 1; j < this.size; j++)
+            for (int j = i + 1; j < cols.length; j++)
             {
-                int currentQueen = Integer.parseInt(this.columns[i]);
-                int comparedQueen = Integer.parseInt(this.columns[j]);
+                int currentQueen = Integer.parseInt(cols[i]);
+                int comparedQueen = Integer.parseInt(cols[j]);
 
                 if (IsOnTheSameDiagonal(i, j, currentQueen, comparedQueen) || IsOnSameColumns(currentQueen, comparedQueen))
                 {
-                    fitness++;
+                    fit++;
                 }
             }
         }
-        this.fitness = fitness;
-
-        return fitness;
+        return fit;
     }
 
     private int fitnessNoConflitct()
@@ -166,6 +183,7 @@ public class Chessboard
         for (int i = 0; i < this.size - 1; i++)
         {
             String[] neighbour = new String[this.size];
+            //String[] neighbour = this.columns.clone();
             System.arraycopy(this.columns, 0, neighbour, 0, this.size);
             for (int j = i + 1; j < this.size; j++)
             {
@@ -176,6 +194,43 @@ public class Chessboard
             }
         }
         return neighbours;
+    }
+    
+    /* FOR TABU*/
+    public Chessboard getFirstBestNeigh(ArrayList<String> tabu)
+    {
+        String[] best = new String[this.size];
+        int fitBest = Integer.MAX_VALUE;
+        for(int i=0; i<this.size; i++)
+        {
+            String[] neighbour = new String[this.size];
+            System.arraycopy(this.columns, 0, neighbour, 0, this.size);
+            for (int j = i + 1; j < this.size; j++)
+            {
+                String tmp = neighbour[i];
+                neighbour[i] = neighbour[j];
+                neighbour[j] = tmp;
+                String test = Arrays.stream(neighbour).collect(Collectors.joining(""));
+                if(!tabu.contains(test))
+                {
+                    int tmpFit = this.fitnessConflictGeneric(neighbour);
+                    if(tmpFit <= this.fitness)
+                    {
+                        return new Chessboard(neighbour);
+                    }
+                    if(tmpFit <= fitBest)
+                    {
+                        fitBest = tmpFit;
+                        System.arraycopy(neighbour, 0, best, 0, neighbour.length);
+                    }
+                }   
+            }
+        }
+        if(best == null)
+        {
+            return null;
+        }
+        return new Chessboard(best);
     }
 
     public ArrayList<String> getNeighboursString()

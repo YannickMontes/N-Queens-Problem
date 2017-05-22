@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import n.queens.problem.FitnessEnum;
 import javax.swing.DefaultComboBoxModel;
-import metaheuristics.Genetic;
 import metaheuristics.GeneticImproved;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
@@ -732,9 +731,9 @@ public class MainWindow extends javax.swing.JFrame
                 .addContainerGap(116, Short.MAX_VALUE))
         );
 
-        populationSizeGenetic.setText(Integer.toString(Genetic.POPULATION_SIZE));
-        maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));
-        mutationProbability.setText(Integer.toString(Genetic.MUTATION_PROBABILITY));
+        populationSizeGenetic.setText(Integer.toString(GeneticImproved.POPULATION_SIZE));
+        maxIterationsGeneticField.setText(Integer.toString(GeneticImproved.MAX_ITERATIONS));
+        mutationProbability.setText(Integer.toString(GeneticImproved.MUTATION_PROBABILITY));
         fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 
         methodPane.addTab("Genetic Algorithm", jPanel3);
@@ -836,7 +835,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void fitnessCurveGeneticButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_fitnessCurveGeneticButtonActionPerformed
     {//GEN-HEADEREND:event_fitnessCurveGeneticButtonActionPerformed
-        showCurve("Genetic algorithm fitness evolution (mean for each generation)", Genetic.steps);
+        showCurve("Genetic algorithm fitness evolution (mean for each generation)", GeneticImproved.steps);
     }//GEN-LAST:event_fitnessCurveGeneticButtonActionPerformed
 
     private void showSolutionGeneticButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_showSolutionGeneticButtonActionPerformed

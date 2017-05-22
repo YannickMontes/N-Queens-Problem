@@ -5,6 +5,7 @@
  */
 package metaheuristics;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -17,11 +18,12 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class GeneticImproved {
 
-    private static final int MAX_ITERATIONS = 4000;
-    private static final int POPULATION_SIZE = 50;
-    private static final int MUTATION_PROBABILITY = 20; // BEST 20
-    private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
-
+    public static final int MAX_ITERATIONS = 4000;
+    public static final int POPULATION_SIZE = 50;
+    public static final int MUTATION_PROBABILITY = 20; // BEST 20
+    public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static ArrayList<Point> steps;
+    
     /**
      * Method to execute tabu search algorithm on given chessboard size with
      * given parameters
@@ -107,9 +109,9 @@ public abstract class GeneticImproved {
         return bestSolution;
     }
 
-    private static String[] combineSolutions(String[] leftSolution, String[] rightSolution) {
+    private static int[] combineSolutions(int[] leftSolution, int[] rightSolution) {
         int length = leftSolution.length + rightSolution.length;
-        String[] result = new String[length];
+        int[] result = new int[length];
         System.arraycopy(leftSolution, 0, result, 0, leftSolution.length);
         System.arraycopy(rightSolution, 0, result, leftSolution.length, rightSolution.length);
 
@@ -157,14 +159,14 @@ public abstract class GeneticImproved {
         Random rand = new Random();
         int splitIndex = rand.nextInt(chessboardSize);
 
-        String[] leftSolution = mother.getColumnsBefore(splitIndex);
-        String[] rightSolution = father.getColumnsAfter(splitIndex);
-        String[] newRightSolution = new String[rightSolution.length];
+        int[] leftSolution = mother.getColumnsBefore(splitIndex);
+        int[] rightSolution = father.getColumnsAfter(splitIndex);
+        int[] newRightSolution = new int[rightSolution.length];
         
         //System.arraycopy(rightSolution, 0, newRightSolution, 0, rightSolution.length);
 
         for(int i = 0; i < rightSolution.length; i++) {
-            String tmp = rightSolution[i];
+            int tmp = rightSolution[i];
             
             int j = 0;
             while(containsElementInArray(leftSolution, tmp) || containsElementInArray(newRightSolution, tmp)) {
@@ -180,14 +182,14 @@ public abstract class GeneticImproved {
         }
         
         
-        String[] solution = combineSolutions(leftSolution, newRightSolution);
+        int[] solution = combineSolutions(leftSolution, newRightSolution);
 
         return new Chessboard(solution);
     }
     
-    private static boolean containsElementInArray(String[] array, String element) {
+    private static boolean containsElementInArray(int[] array, int element) {
         for (int i = 0; i<array.length; i++) {
-            if (array[i] != null && array[i].equals(element)) {
+            if (array[i] == element) {
                 return true;
             }
         }

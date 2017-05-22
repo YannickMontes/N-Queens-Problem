@@ -6,13 +6,7 @@
 package n.queens.problem;
 
 import java.util.ArrayList;
-import metaheuristics.Genetic;
-import metaheuristics.GeneticImproved;
-import metaheuristics.GeneticImprovedV2;
-import metaheuristics.GeneticImprovedV3;
-import metaheuristics.GeneticImprovedV4;
 import metaheuristics.SimulatingAnnealing;
-import metaheuristics.TabuSearch;
 
 /**
  *
@@ -33,7 +27,7 @@ public class NQueensProblem
         System.out.println("Get neighs take "+t1);
         
         t0 = System.currentTimeMillis();
-        board.getFirstBestNeigh(new ArrayList<String>());
+        //board.getFirstBestNeigh(new ArrayList<String>());
         t1 = System.currentTimeMillis() - t0;
         System.out.println("Get first best neighs take "+t1);
         

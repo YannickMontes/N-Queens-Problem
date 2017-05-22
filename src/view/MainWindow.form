@@ -972,7 +972,7 @@
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="populationSizeGenetic.setText(Integer.toString(Genetic.POPULATION_SIZE));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="populationSizeGenetic.setText(Integer.toString(GeneticImproved.POPULATION_SIZE));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="populationSizeGeneticLabel">
@@ -1017,7 +1017,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxIterationsGeneticFieldActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="maxIterationsGeneticField.setText(Integer.toString(GeneticImproved.MAX_ITERATIONS));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="tabuSearchLabel1">
@@ -1131,7 +1131,7 @@
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="mutationProbability.setText(Integer.toString(Genetic.MUTATION_PROBABILITY));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="mutationProbability.setText(Integer.toString(GeneticImproved.MUTATION_PROBABILITY));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="fitnessChoosenGenetic">

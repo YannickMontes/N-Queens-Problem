@@ -15,11 +15,11 @@ import n.queens.problem.FitnessEnum;
  *
  * @author yannick
  */
-public abstract class GeneticImproved {
+public abstract class GeneticImprovedV4 {
 
-    private static final int MAX_ITERATIONS = 100000;
+    private static final int MAX_ITERATIONS = 100;
     private static final int POPULATION_SIZE = 50;
-    private static final int MUTATION_PROBABILITY = 20;
+    private static final int MUTATION_PROBABILITY = 90;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
     /**
@@ -39,14 +39,15 @@ public abstract class GeneticImproved {
         int populationSiz = populationSize != null ? populationSize : POPULATION_SIZE;
         int mutationProbability = mutationProb != null ? mutationProb : MUTATION_PROBABILITY;
 
-        HashMap<Chessboard, Double> population = new HashMap<>();
+        ArrayList<Chessboard> population = new ArrayList<>();
 
         //First let's generate our population
         generateFirstPopulation(population, populationSiz, chessboardSize);
 
         //Initialize the best solution
-        Chessboard bestSolution = (Chessboard) population.keySet().toArray()[0];
-        for (Chessboard c : population.keySet()) {
+        Chessboard bestSolution = (Chessboard) population.get(0);
+        
+        for (Chessboard c : population) {
             if (c.getFitness() < bestSolution.getFitness()) {
                 bestSolution = c;
             }
@@ -60,21 +61,16 @@ public abstract class GeneticImproved {
         for (int i = 0; i < maxIterations; i++) {
             System.out.println("Génération : " + i);
 
-            //Compute the cumulated probability
-            computeCumulatedProbability(population);
-
             //Create a new population
-            HashMap<Chessboard, Double> newPopulation = new HashMap<>();
+            ArrayList<Chessboard> newPopulation = new ArrayList<>();
 
             for (int j = 0; j < populationSiz; j++) {
-                HashMap<Chessboard, Double> tempPopulation = new HashMap<>(population);
-                
                 // ------------------------ SELECTION --------------------------
                 // -------------------------------------------------------------
-                Chessboard father = selectRandomIn(tempPopulation);
+                Chessboard father = selectRandomIn(population, populationSiz);
                 Chessboard mother = null;
                 while(mother == null || mother == father) {
-                    mother = selectRandomIn(tempPopulation);
+                    mother = selectRandomIn(population, populationSiz);
                 }
 
                 // ------------------------ CROSSING ---------------------------
@@ -84,22 +80,28 @@ public abstract class GeneticImproved {
                 // ------------------------ MUTATION ---------------------------
                 // -------------------------------------------------------------
                 mutate(son, mutationProbability);
-
+                
                 //Fill the new population
-                newPopulation.put(son, 0.0);
+                if(son.getFitness() <= bestSolution.getFitness()) {
+                    newPopulation.add(son);
+                }
             }
 
-            population = newPopulation;
-
-            for (Chessboard c : population.keySet()) {
-                if (c.getFitness() < bestSolution.getFitness()) {
-                    bestSolution = new Chessboard(c.getColumns());
+            //if(isNewPopulationBetter(newPopulation, bestSolution)) {
+                if(newPopulation.size() > 1) {
+                    population = newPopulation;
                 }
                 
-                if (c.getFitness() == 0) {
-                    return c;
+                for (Chessboard c : population) {
+                if (c.getFitness() < bestSolution.getFitness()) {
+                        bestSolution = new Chessboard(c.getColumns());
+                    }
+
+                    if (c.getFitness() == 0) {
+                        return c;
+                    }
                 }
-            }
+            //}
 
             System.out.println(bestSolution.getFitness());
         }
@@ -133,55 +135,39 @@ public abstract class GeneticImproved {
         }
     }
 
-    private static void generateFirstPopulation(HashMap<Chessboard, Double> population, int populationSize, int chessboardSize) {
+    private static void generateFirstPopulation(ArrayList<Chessboard> population, int populationSize, int chessboardSize) {
         for (int i = 0; i < populationSize; i++) {
             Chessboard solution = new Chessboard(chessboardSize);
-            solution.generateRandomNeigh();
 
-            population.put(solution, 0.0);
+            population.add(solution);
         }
     }
 
-    private static Chessboard selectRandomIn(HashMap<Chessboard, Double> population) {
-        Double random = Math.random() * 100;
+    private static Chessboard selectRandomIn(ArrayList<Chessboard> population, int chessboardSize) {
+        Random rand = new Random();
+        int index = rand.nextInt(chessboardSize);
 
-        for (Chessboard c : population.keySet()) {
-            if (random <= population.get(c)) {
-                return c;
+        return population.get(index);
+    }
+    
+    private static boolean isNewPopulationBetter(ArrayList<Chessboard> newPopulation, Chessboard bestSolution) {
+        for (Chessboard c : newPopulation) {
+            if (c.getFitness() < bestSolution.getFitness()) {
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     private static Chessboard makeCrossing(Chessboard mother, Chessboard father, int chessboardSize) {
         Random rand = new Random();
         int splitIndex = rand.nextInt(chessboardSize);
 
-        String[] leftSolution = mother.getColumnsBefore(splitIndex);
-        String[] rightSolution = father.getColumnsAfter(splitIndex);
-        String[] newRightSolution = new String[rightSolution.length];
-        
-        //System.arraycopy(rightSolution, 0, newRightSolution, 0, rightSolution.length);
+        String[] leftSolution = father.getColumnsBefore(splitIndex);
+        String[] rightSolution = mother.getColumnsAfter(splitIndex);
 
-        for(int i = 0; i < rightSolution.length; i++) {
-            String tmp = rightSolution[i];
-            
-            int j = 0;
-            while(containsElementInArray(leftSolution, tmp) || containsElementInArray(newRightSolution, tmp)) {
-                if(j>=father.getColumns().length) {
-                    System.out.println("jfr");
-                }
-                tmp = father.getColumns()[j];
-                
-                j++;
-            }
-            
-            newRightSolution[i] = tmp;
-        }
-        
-        
-        String[] solution = combineSolutions(leftSolution, newRightSolution);
+        String[] solution = combineSolutions(leftSolution, rightSolution);
 
         return new Chessboard(solution);
     }

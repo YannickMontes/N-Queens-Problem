@@ -15,7 +15,7 @@ import n.queens.problem.FitnessEnum;
  *
  * @author yannick
  */
-public abstract class GeneticImproved {
+public abstract class GeneticImprovedV3 {
 
     private static final int MAX_ITERATIONS = 100000;
     private static final int POPULATION_SIZE = 50;
@@ -89,15 +89,17 @@ public abstract class GeneticImproved {
                 newPopulation.put(son, 0.0);
             }
 
-            population = newPopulation;
-
-            for (Chessboard c : population.keySet()) {
-                if (c.getFitness() < bestSolution.getFitness()) {
-                    bestSolution = new Chessboard(c.getColumns());
-                }
+            if(isNewPopulationBetter(newPopulation, bestSolution)) {
+                population = newPopulation;
                 
-                if (c.getFitness() == 0) {
-                    return c;
+                for (Chessboard c : population.keySet()) {
+                if (c.getFitness() < bestSolution.getFitness()) {
+                        bestSolution = new Chessboard(c.getColumns());
+                    }
+
+                    if (c.getFitness() == 0) {
+                        return c;
+                    }
                 }
             }
 
@@ -152,6 +154,16 @@ public abstract class GeneticImproved {
         }
 
         return null;
+    }
+    
+    private static boolean isNewPopulationBetter(HashMap<Chessboard, Double> newPopulation, Chessboard bestSolution) {
+        for (Chessboard c : newPopulation.keySet()) {
+            if (c.getFitness() < bestSolution.getFitness()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static Chessboard makeCrossing(Chessboard mother, Chessboard father, int chessboardSize) {

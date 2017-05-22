@@ -55,6 +55,7 @@ public class Chessboard
     {
         this(size);
         this.setSolution(solution);
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
     }
 
     public Chessboard(String[] cols)
@@ -260,7 +261,7 @@ public class Chessboard
 
         this.columns[index] = "" + value;
 
-        this.fitness = fitnessNoConflitct();
+        this.fitness = fitnessConflict();
     }
     
     public void mutateImproved() {
@@ -273,7 +274,7 @@ public class Chessboard
         this.columns[index1] = this.columns[index2];
         this.columns[index2] = tmp;
         
-        this.fitness = fitnessNoConflitct();
+        this.fitness = fitnessConflict();
     }
 
     public boolean IsInConflict(int value, int index, int comparedValue, int comparedIndex)

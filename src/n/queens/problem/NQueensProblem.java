@@ -5,6 +5,11 @@
  */
 package n.queens.problem;
 
+import metaheuristics.Genetic;
+import metaheuristics.GeneticImproved;
+import metaheuristics.GeneticImprovedV2;
+import metaheuristics.GeneticImprovedV3;
+import metaheuristics.GeneticImprovedV4;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
 
@@ -41,11 +46,11 @@ public class NQueensProblem
         Chessboard chess = new Chessboard(4, "1302");
         chess.getConflicts(1);
         chess.getIndexConflicted();
-        /*System.out.println("Genetic:");
+        /*System.out.println("Genetic:");*/
         long time = System.currentTimeMillis();
         Chessboard c = GeneticImproved.execute(100, null, null, null, null);
         System.out.println("Nombre de conflits " + c.computeFitness(null));
-        System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");*/
+        System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
         
         /*System.out.println("Simulated annealing:");
         time = System.currentTimeMillis();

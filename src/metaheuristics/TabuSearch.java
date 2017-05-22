@@ -17,7 +17,7 @@ import n.queens.problem.FitnessEnum;
 public abstract class TabuSearch
 {
     public static final int TABU_LIST_SIZE = 50;
-    public static final int MAX_ITERATIONS = 5000;
+    public static final int MAX_ITERATIONS = 2500;
     public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
     public static ArrayList<Point> steps;
     

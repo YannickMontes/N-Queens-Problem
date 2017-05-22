@@ -23,11 +23,14 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        System.out.println("Genetic:");
+        Chessboard chess = new Chessboard(4, "1302");
+        chess.getConflicts(1);
+        chess.getIndexConflicted();
+        /*System.out.println("Genetic:");
         long time = System.currentTimeMillis();
         Chessboard c = GeneticImprovedV2.execute(100, null, null, null, null);
         System.out.println("Nombre de conflits " + c.computeFitness(null));
-        System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
+        System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");*/
         
         /*System.out.println("Simulated annealing:");
         time = System.currentTimeMillis();

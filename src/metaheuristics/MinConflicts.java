@@ -6,6 +6,7 @@
 package metaheuristics;
 
 import n.queens.problem.Chessboard;
+import n.queens.problem.FitnessEnum;
 
 /**
  *
@@ -18,5 +19,10 @@ public abstract class MinConflicts
     public static void execute(int chessboardSize)
     {
         Chessboard c = new Chessboard(chessboardSize);
+        
+        while(c.computeFitness(FitnessEnum.CONFLICT) != 0)
+        {
+            
+        }
     }
 }

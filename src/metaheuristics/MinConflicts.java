@@ -20,9 +20,9 @@ public abstract class MinConflicts
     {
         Chessboard c = new Chessboard(chessboardSize);
         
-        while(c.computeFitness(FitnessEnum.CONFLICT) != 0)
+        /*while(c.get(FitnessEnum.CONFLICT) != 0)
         {
             
-        }
+        }*/
     }
 }

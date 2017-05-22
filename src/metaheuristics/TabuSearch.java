@@ -38,72 +38,92 @@ public abstract class TabuSearch
         
         //First let's take a random solution
         Chessboard solution = new Chessboard(chessboardSize);
-        ArrayList<String> tabu = new ArrayList();
+        ArrayList<Chessboard> tabu = new ArrayList();
         
         //Save the best solution
         Chessboard bestSolution = solution;
-        int bestFitness = solution.computeFitness(fitness);
+        int bestFitness = solution.getFitness();
         
         //Current iteraton & max iteration number
         int currentIteration = 0;
         
         //The list of neighbours without tabu neighbours
-        ArrayList<String> neighsWithoutTabu;
+        ArrayList<Chessboard> neighsWithoutTabu;
         
         steps = new ArrayList<>();
         
         do
         {
-            ArrayList<String> neighs = solution.getNeighboursString();
+            ArrayList<Chessboard> neighs = solution.getNeighbours();
             
             neighsWithoutTabu = TabuSearch.getNeighsNotTabu(neighs, tabu);
             
-            String choosedNeigh = TabuSearch.chooseRandomNeighbours(neighs);
-            Chessboard neighChess = new Chessboard(chessboardSize, choosedNeigh);
-            
-            int neighFitness = neighChess.computeFitness(fitness);
-            int solutionFitness = solution.computeFitness(fitness);
-            
-            int deltaFitness = neighFitness - solutionFitness;
-            
-            if(deltaFitness >= 0)
+            if(!neighsWithoutTabu.isEmpty())
             {
-                TabuSearch.addToTabuList(tabu, neighChess.getSolution(), tabuTabSize);
+                Chessboard choosedNeigh = TabuSearch.chooseBestNeighbour(neighs);
+
+                int neighFitness = choosedNeigh.getFitness();
+                int solutionFitness = solution.getFitness();
+
+                int deltaFitness = neighFitness - solutionFitness;
+
+                if(deltaFitness >= 0)
+                {
+                    TabuSearch.addToTabuList(tabu, solution, tabuTabSize);
+                }
+
+                if(neighFitness < bestFitness)
+                {
+                    bestSolution = choosedNeigh;
+                    bestFitness =  neighFitness;
+                }
+
+                solution = choosedNeigh;
+                steps.add(new Point(currentIteration, neighFitness));
+
+                currentIteration++;
             }
-            
-            if(neighFitness < bestFitness)
-            {
-                bestSolution = neighChess;
-                bestFitness =  neighFitness;
-            }
-            
-            solution = neighChess;
-            steps.add(new Point(currentIteration, neighFitness));
-            
-            currentIteration++;
-        }while(currentIteration < maxIterations && !neighsWithoutTabu.isEmpty());
+        }while(currentIteration < maxIterations && !neighsWithoutTabu.isEmpty() && solution.getFitness()!=0);
         
         steps.add(new Point(currentIteration, solution.getFitness()));
         
         return bestSolution;
     }
     
-    public static ArrayList<String> getNeighsNotTabu(ArrayList<String> neighs, ArrayList<String> tabu)
+    public static ArrayList<Chessboard> getNeighsNotTabu(ArrayList<Chessboard> neighs, ArrayList<Chessboard> tabuList)
     {
-        tabu.stream().filter((sol) -> (neighs.contains(sol))).forEach((sol) ->
+        ArrayList<Chessboard> toRemove = new ArrayList<>();
+        for(Chessboard neigh : neighs)
         {
-            neighs.remove(sol);
-        });
+            for(Chessboard tabu : tabuList)
+            {
+                if(neigh.getSolution().equals(tabu.getSolution()))
+                {
+                    toRemove.add(neigh);
+                    break;
+                }
+            }
+        }
+        neighs.removeAll(toRemove);
         return neighs;
     }
     
-    private static String chooseRandomNeighbours(ArrayList<String> neighs)
+    private static Chessboard chooseBestNeighbour(ArrayList<Chessboard> neigh)
     {
-        int rand = (int) (Math.random() * (neighs.size()-1));
-        return neighs.get(rand);
+        int min = Integer.MAX_VALUE;
+        Chessboard best = null;
+        for(Chessboard solution : neigh)
+        {
+            if(solution.getFitness() < min)
+            {
+                min = solution.getFitness();
+                best = solution;
+            }
+        }
+        return best;
     }
 
-    private static void addToTabuList(ArrayList<String> tabu, String solution, int tabuTabSize)
+    private static void addToTabuList(ArrayList<Chessboard> tabu, Chessboard solution, int tabuTabSize)
     {
         if(tabu.size() == tabuTabSize)
         {

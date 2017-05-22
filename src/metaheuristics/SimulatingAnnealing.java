@@ -19,7 +19,9 @@ public abstract class SimulatingAnnealing
     public static final int MAX_ITERATIONS = 10000;
     public static final float TEMPERATURE_STROPPING_THRESHOLD = 0.001f;
     public static final float TEMPRATURE_VARIATION_MULTIPLIER = 0.99f;
+    public static final float ACCEPTANCE_PROBA = 0.80f;
     public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
+    public static int CURRENT_ITERATION;
     public static ArrayList<Point> steps;
     
     /**
@@ -28,10 +30,11 @@ public abstract class SimulatingAnnealing
      * @param max_iter Number max of iterations for the algorithme (stopping condition)
      * @param threshold_temp Lowest value for temperature (stopping condition)
      * @param variation_temp How the temperature will decrease through time
+     * @param acceptance
      * @param fit The type of fitness we wanna use
      * @return The best solution found
      */
-    public static Chessboard execute(int chessboardSize, Integer max_iter, Float threshold_temp, Float variation_temp, FitnessEnum fit)
+    public static Chessboard execute(int chessboardSize, Integer max_iter, Float threshold_temp, Float variation_temp, Float acceptance, FitnessEnum fit)
     {
         //We choose a max numbers of iterations
         int maxIterations = max_iter != null ? max_iter : MAX_ITERATIONS;
@@ -41,10 +44,11 @@ public abstract class SimulatingAnnealing
         float thresholdTemp = threshold_temp != null ? threshold_temp : TEMPERATURE_STROPPING_THRESHOLD;
         //What type of fitness we choosed
         FitnessEnum fitness = fit != null ? fit : FITNESS_TYPE;
+        float acceptanceRate = acceptance != null ? acceptance : ACCEPTANCE_PROBA;
         
         //Random initial solution & initial temperature computing
         Chessboard solution = new Chessboard(chessboardSize);
-        float temperature = SimulatingAnnealing.computeInitialTemperatureForRecuit(chessboardSize, 0.8f, fitness);
+        float temperature = SimulatingAnnealing.computeInitialTemperatureForRecuit(chessboardSize, acceptanceRate, fitness);
         
         //Variables to stock the best solution
         Chessboard bestSolution = null;
@@ -53,23 +57,23 @@ public abstract class SimulatingAnnealing
         steps = new ArrayList<>();
         
         
-        int currentIteration = 0;
+        CURRENT_ITERATION = 0;
                 
         //Then we loop through till the temperature is low enough or to a max number of iterations
-        while(temperature > thresholdTemp && currentIteration < maxIterations && bestFitness > 0)
+        while(temperature > thresholdTemp && CURRENT_ITERATION < maxIterations && bestFitness > 0)
         {           
             //Choose a neighbour
             Chessboard choosedNeigh = solution.generateRandomNeigh();
             
             //Compute the delta fitness between the two solutions
-            int solutionFitness = solution.computeFitness(fitness);
-            int neighFitness = choosedNeigh.computeFitness(fitness);
+            int solutionFitness = solution.getFitness();
+            int neighFitness = choosedNeigh.getFitness();
             int deltaFitness = neighFitness - solutionFitness;
             
 
             
             //If the neighbour is better
-            if(deltaFitness < 0)
+            if(deltaFitness <= 0)
             {
                 //Next solution is the neighbour
                 solution = choosedNeigh;
@@ -93,14 +97,15 @@ public abstract class SimulatingAnnealing
                     solutionFitness = neighFitness;
                 }
             }
-            steps.add(new Point(currentIteration, solutionFitness));
+            steps.add(new Point(CURRENT_ITERATION, solutionFitness));
 
             //Finally we update our temperature
             temperature *= variationTemperatureMultiplier;
-            currentIteration += 1;
+            CURRENT_ITERATION += 1;
             
         }
-        System.out.println(currentIteration + " - "+temperature);
+        steps.add(new Point(CURRENT_ITERATION, bestSolution.getFitness()));
+        System.out.println("Nombre d'itérations: "+CURRENT_ITERATION);
 
         return bestSolution;
     }
@@ -113,11 +118,11 @@ public abstract class SimulatingAnnealing
         for(int i=0; i<nbRandom1; i++)
         {
             Chessboard sol1 = new Chessboard(chessboardSize);
-            int fitnessSol1 = sol1.computeFitness(fitness);
+            int fitnessSol1 = sol1.getFitness();
             for(int j=0; j<nbRandom2; j++)
             {
                 Chessboard sol2 = new Chessboard(chessboardSize);
-                sumDeltaFitness += Math.abs(fitnessSol1 - sol2.computeFitness(fitness));
+                sumDeltaFitness += Math.abs(fitnessSol1 - sol2.getFitness());
             }
         }
         float averageDeltaFitness = sumDeltaFitness / (nbRandom1*nbRandom2);

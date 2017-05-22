@@ -86,7 +86,7 @@ public class Chessboard
         }
     }
 
-    public int computeFitness(FitnessEnum fitness)
+    private int computeFitness(FitnessEnum fitness)
     {
         if (fitness == null)
         {
@@ -279,9 +279,7 @@ public class Chessboard
 
     public boolean IsInConflict(int value, int index, int comparedValue, int comparedIndex)
     {
-        return ((value + index) == (comparedIndex + comparedValue) 
-                || (value - index) == (comparedValue - comparedIndex)
-                || value == comparedValue);
+        return (Math.abs(value - index) == Math.abs(comparedValue - comparedIndex));
     }
     
     public ArrayList<Integer> getIndexConflicted()

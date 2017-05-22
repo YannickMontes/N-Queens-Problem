@@ -817,8 +817,8 @@ public class MainWindow extends javax.swing.JFrame
                 Integer.parseInt(mutationProbability.getText()));
         time = System.currentTimeMillis() - time;
         this.fillResults(time, chessSol);
-        fitnessCurveGeneticButton.setEnabled(true);
-        showSolutionGeneticButton.setEnabled(chessSol.getColumns().length <= 35);         
+        //fitnessCurveGeneticButton.setEnabled(true);
+        //showSolutionGeneticButton.setEnabled(chessSol.getColumns().length <= 35);         
         lastResult = chessSol;
     }//GEN-LAST:event_runGeneticActionPerformed
 

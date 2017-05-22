@@ -164,22 +164,25 @@ public abstract class GeneticImproved {
         int[] newRightSolution = new int[rightSolution.length];
         
         //System.arraycopy(rightSolution, 0, newRightSolution, 0, rightSolution.length);
-
-        for(int i = 0; i < rightSolution.length; i++) {
-            int tmp = rightSolution[i];
+        int i = 0; 
+        int j = 0;
+        
+        while(i < rightSolution.length) {
             
-            int j = 0;
-            while(containsElementInArray(leftSolution, tmp) || containsElementInArray(newRightSolution, tmp)) {
-                if(j>=father.getColumns().length) {
-                    System.out.println("jfr");
-                }
-                tmp = father.getColumns()[j];
-                
+            int tmp = father.getColumns()[j];
+            
+            while(containsElementInArray(leftSolution, tmp)) {
                 j++;
+                tmp = father.getColumns()[j];                
             }
             
             newRightSolution[i] = tmp;
+            j++;
+            i++;
         }
+        //for(int i = 0; i < rightSolution.length; i++) {
+            
+        //}
         
         
         int[] solution = combineSolutions(leftSolution, newRightSolution);

@@ -15,11 +15,11 @@ import n.queens.problem.FitnessEnum;
  *
  * @author yannick
  */
-public abstract class GeneticImproved {
+public abstract class GeneticImprovedV2 {
 
     private static final int MAX_ITERATIONS = 1000;
     private static final int POPULATION_SIZE = 100;
-    private static final int MUTATION_PROBABILITY = 10;
+    private static final int MUTATION_PROBABILITY = 100;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
     /**
@@ -65,37 +65,46 @@ public abstract class GeneticImproved {
 
             //Create a new population
             HashMap<Chessboard, Double> newPopulation = new HashMap<>();
+            HashMap<Chessboard, Double> tempPopulation = new HashMap<>(population);
 
-            for (int j = 0; j < populationSiz; j++) {
-                HashMap<Chessboard, Double> tempPopulation = new HashMap<>(population);
-                
-                // ------------------------ SELECTION --------------------------
-                // -------------------------------------------------------------
+            // ------------------------ SELECTION --------------------------
+            // -------------------------------------------------------------
+            while (newPopulation.size() < populationSiz/3) {
                 Chessboard father = selectRandomIn(tempPopulation);
-                Chessboard mother = null;
-                while(mother == null || mother == father) {
-                    mother = selectRandomIn(tempPopulation);
-                }
-
-                // ------------------------ CROSSING ---------------------------
-                // -------------------------------------------------------------
-                Chessboard son = makeCrossing(mother, father, chessboardSize);
-
-                // ------------------------ MUTATION ---------------------------
-                // -------------------------------------------------------------
-                mutate(son, mutationProbability);
-
-                //Fill the new population
-                newPopulation.put(son, 0.0);
+                newPopulation.put(father, 0.0);
             }
 
-            population = newPopulation;
+            // ------------------------ CROSSING ---------------------------
+            // -------------------------------------------------------------
+            for (int k = 0; k < newPopulation.size()-1; k++) {
+                Chessboard mother = (Chessboard) newPopulation.keySet().toArray()[k];
+                Chessboard father = (Chessboard) newPopulation.keySet().toArray()[k + 1];
+                Chessboard son = makeCrossing(mother, father, chessboardSize);
+                newPopulation.put(son, 0.0);
 
+                k = k + 1;
+            }
+
+            // ------------------------ MUTATION ---------------------------
+            // -------------------------------------------------------------
+            for (Chessboard c : newPopulation.keySet()) {
+                population.remove(c);
+            }
+
+            while (newPopulation.size() < populationSiz) {
+                Chessboard father = selectRandomIn(tempPopulation);
+                mutate(father, mutationProbability);
+                newPopulation.put(father, 0.0);
+            }
+
+            population = newPopulation;   
+            
             for (Chessboard c : population.keySet()) {
+                
                 if (c.getFitness() < bestSolution.getFitness()) {
                     bestSolution = new Chessboard(c.getColumns());
                 }
-                
+
                 if (c.getFitness() == 0) {
                     return c;
                 }
@@ -158,41 +167,21 @@ public abstract class GeneticImproved {
         Random rand = new Random();
         int splitIndex = rand.nextInt(chessboardSize);
 
-        String[] leftSolution = mother.getColumnsBefore(splitIndex);
-        String[] rightSolution = father.getColumnsAfter(splitIndex);
-        String[] newRightSolution = new String[rightSolution.length];
-        
-        //System.arraycopy(rightSolution, 0, newRightSolution, 0, rightSolution.length);
+        String[] leftSolution = father.getColumnsBefore(splitIndex);
+        String[] rightSolution = mother.getColumnsAfter(splitIndex);
 
-        for(int i = 0; i < rightSolution.length; i++) {
-            String tmp = rightSolution[i];
-            
-            int j = 0;
-            while(containsElementInArray(leftSolution, tmp) || containsElementInArray(newRightSolution, tmp)) {
-                if(j>=father.getColumns().length) {
-                    System.out.println("jfr");
-                }
-                tmp = father.getColumns()[j];
-                
-                j++;
-            }
-            
-            newRightSolution[i] = tmp;
-        }
-        
-        
-        String[] solution = combineSolutions(leftSolution, newRightSolution);
+        String[] solution = combineSolutions(leftSolution, rightSolution);
 
         return new Chessboard(solution);
     }
-    
+
     private static boolean containsElementInArray(String[] array, String element) {
-        for (int i = 0; i<array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             if (array[i] != null && array[i].equals(element)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 

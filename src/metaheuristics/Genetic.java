@@ -95,7 +95,7 @@ public abstract class Genetic {
 
             for (Chessboard c : population.keySet()) {
                 if (c.getFitness() < bestSolution.getFitness()) {
-                    bestSolution = c;
+                    bestSolution = new Chessboard(c.getColumns());
                 }
                 
                 if (c.getFitness() == 0) {

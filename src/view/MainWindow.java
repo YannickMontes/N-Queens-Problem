@@ -58,6 +58,8 @@ public class MainWindow extends javax.swing.JFrame
         bestFitnessAnnealing = new javax.swing.JLabel();
         withSolutionAnnealingLabel = new javax.swing.JLabel();
         solutionAnnealing = new javax.swing.JLabel();
+        fitnessCurveAnnealingButton = new javax.swing.JButton();
+        showSolutionAnnealingButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         tabuSearchLabel = new javax.swing.JLabel();
         maxIterationsTabuLabel = new javax.swing.JLabel();
@@ -156,7 +158,7 @@ public class MainWindow extends javax.swing.JFrame
         fitnessChoosenAnnealing.setModel(new DefaultComboBoxModel<>(FitnessEnum.values()));
 
         runAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        runAnnealing.setText("RUN MATE");
+        runAnnealing.setText("RUN");
         runAnnealing.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -171,8 +173,6 @@ public class MainWindow extends javax.swing.JFrame
 
         executionTimeAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         executionTimeAnnealing.setText("0 ms");
-        executionTimeAnnealing.setMaximumSize(new java.awt.Dimension(34, 17));
-        executionTimeAnnealing.setMinimumSize(new java.awt.Dimension(34, 17));
         executionTimeAnnealing.setPreferredSize(new java.awt.Dimension(30, 30));
 
         bestFitnessAnnealingLabel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -190,49 +190,84 @@ public class MainWindow extends javax.swing.JFrame
         solutionAnnealing.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         solutionAnnealing.setPreferredSize(new java.awt.Dimension(30, 30));
 
+        fitnessCurveAnnealingButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fitnessCurveAnnealingButton.setText("Show fitness curve");
+        fitnessCurveAnnealingButton.setEnabled(false);
+        fitnessCurveAnnealingButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        fitnessCurveAnnealingButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        fitnessCurveAnnealingButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        fitnessCurveAnnealingButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                fitnessCurveAnnealingButtonActionPerformed(evt);
+            }
+        });
+
+        showSolutionAnnealingButton.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        showSolutionAnnealingButton.setText("Show solution");
+        showSolutionAnnealingButton.setEnabled(false);
+        showSolutionAnnealingButton.setMaximumSize(new java.awt.Dimension(164, 30));
+        showSolutionAnnealingButton.setMinimumSize(new java.awt.Dimension(164, 30));
+        showSolutionAnnealingButton.setPreferredSize(new java.awt.Dimension(164, 30));
+        showSolutionAnnealingButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                showSolutionAnnealingButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout annealingPanelLayout = new javax.swing.GroupLayout(annealingPanel);
         annealingPanel.setLayout(annealingPanelLayout);
         annealingPanelLayout.setHorizontalGroup(
             annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, annealingPanelLayout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addComponent(simuAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(231, 231, 231))
             .addGroup(annealingPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(annealingPanelLayout.createSequentialGroup()
                         .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(temperatureThresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fitnessChoosenAnnealingLabel)
-                            .addComponent(maxIterationsAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(temperatureVariationMulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(temperatureThresholdField)
-                                .addComponent(temperatureVariationMulField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                                .addComponent(maxIterationsAnnealingField)
-                                .addComponent(fitnessChoosenAnnealing, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(annealingPanelLayout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(runAnnealing)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(temperatureThresholdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fitnessChoosenAnnealingLabel)
+                                    .addComponent(maxIterationsAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(temperatureVariationMulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(temperatureThresholdField)
+                                        .addComponent(temperatureVariationMulField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                                        .addComponent(maxIterationsAnnealingField)
+                                        .addComponent(fitnessChoosenAnnealing, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(annealingPanelLayout.createSequentialGroup()
+                                        .addGap(78, 78, 78)
+                                        .addComponent(runAnnealing)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(annealingPanelLayout.createSequentialGroup()
+                                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, annealingPanelLayout.createSequentialGroup()
+                                        .addComponent(bestFitnessAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(bestFitnessAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, annealingPanelLayout.createSequentialGroup()
+                                        .addComponent(executionTimeAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(68, 68, 68)
+                                        .addComponent(executionTimeAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(withSolutionAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(solutionAnnealing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, annealingPanelLayout.createSequentialGroup()
+                        .addGap(0, 254, Short.MAX_VALUE)
+                        .addComponent(simuAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(231, 231, 231))
                     .addGroup(annealingPanelLayout.createSequentialGroup()
-                        .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, annealingPanelLayout.createSequentialGroup()
-                                .addComponent(bestFitnessAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bestFitnessAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, annealingPanelLayout.createSequentialGroup()
-                                .addComponent(executionTimeAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(68, 68, 68)
-                                .addComponent(executionTimeAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(fitnessCurveAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(withSolutionAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(solutionAnnealing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(showSolutionAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         annealingPanelLayout.setVerticalGroup(
             annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,7 +292,7 @@ public class MainWindow extends javax.swing.JFrame
                     .addComponent(fitnessChoosenAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(runAnnealing)
-                .addGap(92, 92, 92)
+                .addGap(98, 98, 98)
                 .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(executionTimeAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(executionTimeAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -268,7 +303,11 @@ public class MainWindow extends javax.swing.JFrame
                         .addComponent(bestFitnessAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(withSolutionAnnealingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(solutionAnnealing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(annealingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fitnessCurveAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showSolutionAnnealingButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         maxIterationsAnnealingField.setText(Integer.toString(SimulatingAnnealing.MAX_ITERATIONS));
@@ -796,7 +835,6 @@ public class MainWindow extends javax.swing.JFrame
     
     private void fillResults(long executionTime, Chessboard solution)
     {
-        System.out.println(this.methodPane.getSelectedIndex());
         switch (this.methodPane.getSelectedIndex())
         {
             case 0:

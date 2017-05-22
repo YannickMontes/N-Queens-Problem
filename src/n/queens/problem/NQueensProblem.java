@@ -25,7 +25,7 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
-        int chessSize = 500;
+        /*int chessSize = 500;
         double meanTime = 0.0d;
         int sample = 1;
         for(int i=0; i<sample; i++)
@@ -50,7 +50,7 @@ public class NQueensProblem
         long time = System.currentTimeMillis();
         Chessboard c = GeneticImproved.execute(25, null, null, null, null);
         System.out.println("Nombre de conflits " + c.computeFitness(null));
-        System.out.println("Annealing take "+(System.currentTimeMillis() - time)+" ms");
+        System.out.println("Genetic take "+(System.currentTimeMillis() - time)+" ms");
         
         /*System.out.println("Simulated annealing:");
         long time = System.currentTimeMillis();

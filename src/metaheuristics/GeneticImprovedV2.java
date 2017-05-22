@@ -145,7 +145,6 @@ public abstract class GeneticImprovedV2 {
     private static void generateFirstPopulation(HashMap<Chessboard, Double> population, int populationSize, int chessboardSize) {
         for (int i = 0; i < populationSize; i++) {
             Chessboard solution = new Chessboard(chessboardSize);
-            solution.generateRandomNeigh();
 
             population.put(solution, 0.0);
         }

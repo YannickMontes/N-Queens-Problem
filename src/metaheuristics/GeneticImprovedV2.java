@@ -17,7 +17,7 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class GeneticImprovedV2 {
 
-    private static final int MAX_ITERATIONS = 1000;
+    private static final int MAX_ITERATIONS = 10000;
     private static final int POPULATION_SIZE = 100;
     private static final int MUTATION_PROBABILITY = 100;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;

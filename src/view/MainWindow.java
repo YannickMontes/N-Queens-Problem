@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import n.queens.problem.FitnessEnum;
 import javax.swing.DefaultComboBoxModel;
 import metaheuristics.Genetic;
+import metaheuristics.GeneticImproved;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
 import n.queens.problem.Chessboard;
@@ -813,7 +814,7 @@ public class MainWindow extends javax.swing.JFrame
     private void runGeneticActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_runGeneticActionPerformed
     {//GEN-HEADEREND:event_runGeneticActionPerformed
         long time = System.currentTimeMillis();
-        Chessboard chessSol = Genetic.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.populationSizeGenetic.getText()),
+        Chessboard chessSol = GeneticImproved.execute(Integer.parseInt(this.chessSizeField.getText()), Integer.parseInt(this.populationSizeGenetic.getText()),
                 Integer.parseInt(this.maxIterationsGeneticField.getText()), (FitnessEnum)this.fitnessChoosenTabu.getSelectedItem(), 
                 Integer.parseInt(mutationProbability.getText()));
         time = System.currentTimeMillis() - time;

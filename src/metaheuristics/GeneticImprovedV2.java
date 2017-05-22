@@ -17,9 +17,9 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class GeneticImprovedV2 {
 
-    private static final int MAX_ITERATIONS = 10000;
-    private static final int POPULATION_SIZE = 100;
-    private static final int MUTATION_PROBABILITY = 100;
+    private static final int MAX_ITERATIONS = 4000;
+    private static final int POPULATION_SIZE = 50;
+    private static final int MUTATION_PROBABILITY = 10;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
     /**
@@ -145,7 +145,6 @@ public abstract class GeneticImprovedV2 {
     private static void generateFirstPopulation(HashMap<Chessboard, Double> population, int populationSize, int chessboardSize) {
         for (int i = 0; i < populationSize; i++) {
             Chessboard solution = new Chessboard(chessboardSize);
-            solution.generateRandomNeigh();
 
             population.put(solution, 0.0);
         }

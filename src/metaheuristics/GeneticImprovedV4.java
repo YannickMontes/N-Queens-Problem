@@ -17,9 +17,9 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class GeneticImprovedV4 {
 
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 4000;
     private static final int POPULATION_SIZE = 50;
-    private static final int MUTATION_PROBABILITY = 90;
+    private static final int MUTATION_PROBABILITY = 10;
     private static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
 
     /**
@@ -67,10 +67,10 @@ public abstract class GeneticImprovedV4 {
             for (int j = 0; j < populationSiz; j++) {
                 // ------------------------ SELECTION --------------------------
                 // -------------------------------------------------------------
-                Chessboard father = selectRandomIn(population, populationSiz);
+                Chessboard father = selectRandomIn(population);
                 Chessboard mother = null;
                 while(mother == null || mother == father) {
-                    mother = selectRandomIn(population, populationSiz);
+                    mother = selectRandomIn(population);
                 }
 
                 // ------------------------ CROSSING ---------------------------
@@ -143,10 +143,10 @@ public abstract class GeneticImprovedV4 {
         }
     }
 
-    private static Chessboard selectRandomIn(ArrayList<Chessboard> population, int chessboardSize) {
+    private static Chessboard selectRandomIn(ArrayList<Chessboard> population) {
         Random rand = new Random();
-        int index = rand.nextInt(chessboardSize);
-
+        int index = rand.nextInt(population.size());
+        
         return population.get(index);
     }
     

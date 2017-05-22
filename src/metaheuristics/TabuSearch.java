@@ -16,7 +16,7 @@ import n.queens.problem.FitnessEnum;
  */
 public abstract class TabuSearch
 {
-    public static final int TABU_LIST_SIZE = 7;
+    public static final int TABU_LIST_SIZE = 50;
     public static final int MAX_ITERATIONS = 5000;
     public static final FitnessEnum FITNESS_TYPE = FitnessEnum.CONFLICT;
     public static ArrayList<Point> steps;
@@ -37,8 +37,8 @@ public abstract class TabuSearch
         FitnessEnum fitness = fit != null ? fit : FITNESS_TYPE;
         
         //First let's take a random solution
-        Chessboard solution = new Chessboard(chessboardSize);
-        ArrayList<Chessboard> tabu = new ArrayList();
+        Chessboard solution = new Chessboard(chessboardSize, true);
+        ArrayList<Point> tabu = new ArrayList();
         
         //Save the best solution
         Chessboard bestSolution = solution;
@@ -47,18 +47,15 @@ public abstract class TabuSearch
         //Current iteraton & max iteration number
         int currentIteration = 0;
         
-        //The list of neighbours without tabu neighbours
-        ArrayList<Chessboard> neighsWithoutTabu;
+        ArrayList<Chessboard> neighs;
         
         steps = new ArrayList<>();
         
         do
         {
-            ArrayList<Chessboard> neighs = solution.getNeighbours();
-            
-            neighsWithoutTabu = TabuSearch.getNeighsNotTabu(neighs, tabu);
-            
-            if(!neighsWithoutTabu.isEmpty())
+            neighs = solution.getNeighbours(tabu);
+                        
+            if(!neighs.isEmpty())
             {
                 Chessboard choosedNeigh = TabuSearch.chooseBestNeighbour(neighs);
 
@@ -69,7 +66,7 @@ public abstract class TabuSearch
 
                 if(deltaFitness >= 0)
                 {
-                    TabuSearch.addToTabuList(tabu, solution, tabuTabSize);
+                    TabuSearch.addToTabuList(tabu, solution.getMouvement(), tabuTabSize);
                 }
 
                 if(neighFitness < bestFitness)
@@ -83,7 +80,9 @@ public abstract class TabuSearch
 
                 currentIteration++;
             }
-        }while(currentIteration < maxIterations && !neighsWithoutTabu.isEmpty() && solution.getFitness()!=0);
+        }while(currentIteration < maxIterations && !neighs.isEmpty() && solution.getFitness()!=0);
+        
+        System.out.println("Iteration "+currentIteration);
         
         steps.add(new Point(currentIteration, solution.getFitness()));
         
@@ -112,23 +111,23 @@ public abstract class TabuSearch
     {
         int min = Integer.MAX_VALUE;
         Chessboard best = null;
-        for(Chessboard solution : neigh)
+        for(int i=0; i<neigh.size(); i++)
         {
-            if(solution.getFitness() < min)
+            if(neigh.get(i).getFitness() < min)
             {
-                min = solution.getFitness();
-                best = solution;
+                min = neigh.get(i).getFitness();
+                best = neigh.get(i);
             }
         }
         return best;
     }
 
-    private static void addToTabuList(ArrayList<Chessboard> tabu, Chessboard solution, int tabuTabSize)
+    private static void addToTabuList(ArrayList<Point> tabu, Point mvmt, int tabuTabSize)
     {
         if(tabu.size() == tabuTabSize)
         {
             tabu.remove(0);
         }
-        tabu.add(solution);
+        tabu.add(mvmt);
     }
 }

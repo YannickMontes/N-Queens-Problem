@@ -22,7 +22,7 @@ public class NQueensProblem
     {   
         Chessboard board = new Chessboard(100);
         long t0 = System.currentTimeMillis();
-        board.getNeighbours();
+        //board.getNeighbours();
         long t1 = System.currentTimeMillis() - t0;
         System.out.println("Get neighs take "+t1);
         

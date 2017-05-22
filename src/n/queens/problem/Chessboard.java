@@ -5,6 +5,7 @@
  */
 package n.queens.problem;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,6 +22,12 @@ public class Chessboard
 {
 
     private int[] columns;
+    private Point mouvement;
+
+    public Point getMouvement()
+    {
+        return mouvement;
+    }
 
     public int[] getColumns()
     {
@@ -73,6 +80,16 @@ public class Chessboard
     {
         this.size = cols.length;
         this.columns = cols;
+
+        //TO DELETE     
+        this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
+    }
+    
+    public Chessboard(int[] cols, Point mouvement)
+    {
+        this.size = cols.length;
+        this.columns = cols;
+        this.mouvement = mouvement;
 
         //TO DELETE     
         this.fitness = this.computeFitness(FitnessEnum.CONFLICT);
@@ -139,6 +156,9 @@ public class Chessboard
                 {
                     fit++;
                 }
+                /*if (((j - i) == (cols[j] - cols[i])) || ((j - i) == -(cols[j] - cols[i]))) {
+                   fit++;
+               }*/
             }
         }
         return fit;
@@ -169,23 +189,36 @@ public class Chessboard
         return solution;
     }
 
-    public ArrayList<Chessboard> getNeighbours()
+    public ArrayList<Chessboard> getNeighbours(ArrayList<Point> tabu)
     {
         ArrayList<Chessboard> neighbours = new ArrayList();
         for (int i = 0; i < this.size - 1; i++)
         {
             int[] neighbour = new int[this.size];
             //String[] neighbour = this.columns.clone();
-            System.arraycopy(this.columns, 0, neighbour, 0, this.size);
             for (int j = i + 1; j < this.size; j++)
             {
-                int tmp = neighbour[i];
-                neighbour[i] = neighbour[j];
-                neighbour[j] = tmp;
-                neighbours.add(new Chessboard(neighbour));
+                System.arraycopy(this.columns, 0, neighbour, 0, this.size);
+                if(!this.containsTabu(tabu, i, j))       
+                {
+                    int tmp = neighbour[i];
+                    neighbour[i] = neighbour[j];
+                    neighbour[j] = tmp;
+                    neighbours.add(new Chessboard(neighbour, new Point(i, j)));
+                }
             }
         }
         return neighbours;
+    }
+    
+    public boolean containsTabu(ArrayList<Point> tabu, int i, int j)
+    {
+        for(Point p : tabu)
+        {
+            if(p.x == i && p.y == j)
+                return true;
+        }
+        return false;
     }
     
     /* FOR TABU*/

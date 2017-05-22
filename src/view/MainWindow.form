@@ -520,11 +520,6 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="261" max="32767" attributes="0"/>
-                      <Component id="tabuSearchLabel" min="-2" pref="274" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="236" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -544,7 +539,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="withSolutionTabuLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="solutionTabu" max="32767" attributes="0"/>
+                              <Component id="solutionTabu" pref="388" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -566,6 +561,10 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="showSolutionTabuButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
+                                      <Component id="tabuSearchLabel" min="-2" pref="274" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -583,7 +582,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tabuSearchLabel" min="-2" max="-2" attributes="0"/>
+                      <Component id="tabuSearchLabel" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="maxIterationsTabuField" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
@@ -972,7 +971,7 @@
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="populationSizeGenetic.setText(Integer.toString(Genetic.POPULATION_SIZE));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="populationSizeGenetic.setText(Integer.toString(GeneticImproved.POPULATION_SIZE));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="populationSizeGeneticLabel">
@@ -1017,7 +1016,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxIterationsGeneticFieldActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="maxIterationsGeneticField.setText(Integer.toString(GeneticImproved.MAX_ITERATIONS));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="tabuSearchLabel1">
@@ -1131,7 +1130,7 @@
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="mutationProbability.setText(Integer.toString(Genetic.MUTATION_PROBABILITY));"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="mutationProbability.setText(Integer.toString(GeneticImproved.MUTATION_PROBABILITY));"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JComboBox" name="fitnessChoosenGenetic">

@@ -37,7 +37,7 @@ public class SolutionDisplay extends JDialog
     {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for(String col : chess.getColumns())
+        for(int col : chess.getColumns())
         {
             JLabel label = new JLabel();
             StringBuilder tmp = new StringBuilder("");
@@ -45,7 +45,7 @@ public class SolutionDisplay extends JDialog
             {
                 tmp.append(" - ");
             }
-            tmp.setCharAt(3 * Integer.parseInt(col) + 1, '0');
+            tmp.setCharAt(3 * col + 1, '0');
             label.setText(tmp.toString());
             label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 22));
             panel.add(label);

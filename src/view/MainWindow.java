@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import n.queens.problem.FitnessEnum;
 import javax.swing.DefaultComboBoxModel;
-import metaheuristics.Genetic;
 import metaheuristics.GeneticImproved;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
@@ -447,10 +446,6 @@ public class MainWindow extends javax.swing.JFrame
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(261, Short.MAX_VALUE)
-                .addComponent(tabuSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(236, 236, 236))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,7 +462,7 @@ public class MainWindow extends javax.swing.JFrame
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(withSolutionTabuLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(solutionTabu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(solutionTabu, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -483,7 +478,10 @@ public class MainWindow extends javax.swing.JFrame
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(fitnessCurveTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(showSolutionTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(showSolutionTabuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(237, 237, 237)
+                                .addComponent(tabuSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -495,7 +493,7 @@ public class MainWindow extends javax.swing.JFrame
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabuSearchLabel)
+                .addComponent(tabuSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(maxIterationsTabuField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -732,9 +730,9 @@ public class MainWindow extends javax.swing.JFrame
                 .addContainerGap(116, Short.MAX_VALUE))
         );
 
-        populationSizeGenetic.setText(Integer.toString(Genetic.POPULATION_SIZE));
-        maxIterationsGeneticField.setText(Integer.toString(Genetic.MAX_ITERATIONS));
-        mutationProbability.setText(Integer.toString(Genetic.MUTATION_PROBABILITY));
+        populationSizeGenetic.setText(Integer.toString(GeneticImproved.POPULATION_SIZE));
+        maxIterationsGeneticField.setText(Integer.toString(GeneticImproved.MAX_ITERATIONS));
+        mutationProbability.setText(Integer.toString(GeneticImproved.MUTATION_PROBABILITY));
         fitnessChoosenAnnealing.setSelectedItem(SimulatingAnnealing.FITNESS_TYPE);
 
         methodPane.addTab("Genetic Algorithm", jPanel3);
@@ -836,7 +834,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void fitnessCurveGeneticButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_fitnessCurveGeneticButtonActionPerformed
     {//GEN-HEADEREND:event_fitnessCurveGeneticButtonActionPerformed
-        showCurve("Genetic algorithm fitness evolution (mean for each generation)", Genetic.steps);
+        showCurve("Genetic algorithm fitness evolution (mean for each generation)", GeneticImproved.steps);
     }//GEN-LAST:event_fitnessCurveGeneticButtonActionPerformed
 
     private void showSolutionGeneticButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_showSolutionGeneticButtonActionPerformed

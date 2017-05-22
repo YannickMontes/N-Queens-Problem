@@ -5,8 +5,6 @@
  */
 package n.queens.problem;
 
-import metaheuristics.Genetic;
-import metaheuristics.GeneticImproved;
 import metaheuristics.SimulatingAnnealing;
 import metaheuristics.TabuSearch;
 
@@ -22,6 +20,24 @@ public class NQueensProblem
      */
     public static void main(String[] args)
     {
+        int chessSize = 500;
+        double meanTime = 0.0d;
+        int sample = 1;
+        for(int i=0; i<sample; i++)
+        {
+            long deb = System.currentTimeMillis();
+            Chessboard c = SimulatingAnnealing.execute(chessSize, null, 0.0f, null, FitnessEnum.CONFLICT);
+            //Chessboard c = TabuSearch.execute(chessSize, null, null, FitnessEnum.CONFLICT);
+            //Chessboard c = ton appel de méthode
+            long end = System.currentTimeMillis() - deb;
+            System.out.println(c.computeFitness(FitnessEnum.CONFLICT));
+            meanTime += end;
+        }
+        meanTime = meanTime/sample;
+        
+        System.out.println("Temps moyen d'exécution: "+meanTime);
+        
+        /*
         Chessboard chess = new Chessboard(4, "1302");
         chess.getConflicts(1);
         chess.getIndexConflicted();
